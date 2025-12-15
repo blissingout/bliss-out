@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bliss Out Dance Studio | Khandwa</title>
+
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+    /* Force hamburger visible on mobile */
+    @media (max-width: 768px) {
+     .hamburger {
+        display: block !important;
+     }
+     nav {
+        display: none !important;
+     }
+     nav.active {
+        display: block !important;
+     }
+     nav ul {
+        flex-direction: column;
+        align-items: center;
+        background-color: #111;
+        padding: 20px 0;
+        margin-top: 20px;
+        gap: 15px;
+     }
+    }
+    </style>
+
+</head>
+<body>
+
+    <!-- Header -->
+   <header class="navbar">
+    <div class="logo">Bliss Out</div>
+
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+    <nav id="nav-menu">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+   </header>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h2>Come and move with rhythm of music</h2>
+        <p>
+            Bliss Out is an offline dance studio in Khandwa, Madhya Pradesh,
+            welcoming dancers of all ages and kids who love to move.
+        </p>
+        <button>Join Bliss Out</button>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+    <h2>About Bliss Out</h2>
+    <p>
+        Bliss Out is an offline dance studio based in Khandwa, Madhya Pradesh.
+        We believe dance is not just about steps, but about expression, rhythm,
+        and confidence. Our studio welcomes dancers of all age groups and
+        kids who have the passion to move.
+    </p>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+    <h2>Gallery</h2>
+
+    <div class="gallery-grid">
+        <div class="gallery-item">
+         <img src="images/dance1.jpg" alt="" onclick="openLightbox(this.src)">
+        </div>
+
+        <div class="gallery-item">
+         <img src="images/dance2.jpg"alt="" onclick="openLightbox(this.src)">
+        </div>
+
+        <div class="gallery-item">
+         <img src="images/dance3.jpg"alt="" onclick="openLightbox(this.src)">
+        </div>
+
+        <div class="gallery-item">
+         <img src="images/dance4.jpg"alt="" onclick="openLightbox(this.src)">
+        </div>
+
+        <div class="gallery-item">
+         <img src="images/dance5.jpg"alt="" onclick="openLightbox(this.src)">
+        </div>
+
+        <div class="gallery-item">
+         <img src="images/dance6.jpg"alt="" onclick="openLightbox(this.src)">
+        </div>
+
+    </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+    <h2>Contact Bliss Out</h2>
+
+    <div class="contact-info">
+        <p><strong>📍 Location:</strong> Khandwa, Madhya Pradesh, India</p>
+        <p><strong>📞 Phone:</strong> +91 8964033641</p>
+        <p><strong>✉️ Email:</strong> blissoutdance@gmail.com</p>
+    </div>
+
+    <form class="contact-form">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Your Message" rows="4" required></textarea>
+        <button type="submit">Get in touch</button>
+    </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+    <div class="footer-content">
+        <h3>Bliss Out Dance Studio</h3>
+        <p>Khandwa, Madhya Pradesh, India</p>
+
+        <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Classes</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+
+        <p class="copyright">
+            © 2025 Bliss Out Dance Studio. All rights reserved.
+        </p>
+    </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+     <span class="close">&times;</span>
+     <img id="lightbox-img" src="" alt="Expanded image">
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
