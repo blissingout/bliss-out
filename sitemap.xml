@@ -13,4 +13,10 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://blissingout.github.io/bliss-out/about.html</loc>
+    <lastmod>2025-01-01</lastmod>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
