@@ -94,6 +94,11 @@ header h1 {
     border-bottom: none;
     border-radius: 50%;
     transform: rotate(-30deg);
+    transition: transform 0.35s ease;
+}
+
+.logo:hover .logo-mark {
+    transform: rotate(0deg);
 }
 
 /* Desktop nav menu */
@@ -408,6 +413,7 @@ header h1 {
     border: 2px solid #e94560;
     background: linear-gradient(180deg, #1a1a1a, #111);
 }
+
 
 
 
