@@ -149,10 +149,32 @@ header h1 {
 
 /* Hamburger */
 .hamburger {
+    width: 28px;
+    height: 20px;
     display: none;
-    font-size: 28px;
-    color: white;
+    flex-direction: column;
+    justify-content: space-between;
     cursor: pointer;
+}
+
+.hamburger span {
+    height: 2px;
+    width: 100%;
+    background-color: #eaeaea;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 /* Mobile Styles */
@@ -446,5 +468,6 @@ header h1 {
     border: 2px solid #e94560;
     background: linear-gradient(180deg, #1a1a1a, #111);
 }
+
 
 
