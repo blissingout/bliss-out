@@ -9,18 +9,7 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Header */
-header {
-    text-align: center;
-    padding: 40px 20px;
-    background-color: #111;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 48px;
-    letter-spacing: 3px;
-}
+/* Header "I deleted this part in the process of debugging" */
 
 .tagline {
     font-size: 16px;
@@ -177,13 +166,15 @@ header h1 {
     transform: translateY(-9px) rotate(-45deg);
 }
 
+.hamburger {
+    z-index: 1001;
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
 
     .hamburger {
-        display: block;
-        font-size: 28px;
-        cursor: pointer;
+    display: flex;
     }
 
    #nav-menu {
