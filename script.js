@@ -66,4 +66,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         fadeElements.forEach((el) => observer.observe(el));
     }
+
+    /* =====================
+       Disappearing and appearing menu
+    ===================== */
+
+    let lastScrollY = window.scrollY;
+    const navbar = document.querySelector(".navbar");
+
+    window.addEventListener("scroll", () => {
+         if (!navbar || navMenu.classList.contains("active")) return;
+
+         if (window.scrollY > lastScrollY && window.scrollY > 100) {
+             // scrolling down
+             navbar.classList.add("hide");
+         } else {
+             // scrolling up
+             navbar.classList.remove("hide");
+         }
+
+         lastScrollY = window.scrollY;
+    });
+
 });
