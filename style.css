@@ -47,6 +47,20 @@ html {
     background-color: #580713;
 }
 
+/* Button lift effect */
+.hero button,
+.about-cta {
+    transition: 
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.hero button:hover,
+.about-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(233, 69, 96, 0.35);
+}
+
 /* Navbar Base */
 .navbar {
     display: flex;
@@ -108,7 +122,7 @@ html {
     color: #eaeaea;
     text-decoration: none;
     font-size: 13.5px;
-    letter-spacing: 1.4px;
+    letter-spacing: 1.8px;
     cursor: pointer;
     opacity: 0.65;
     transition: opacity 0.25s ease;
@@ -134,6 +148,42 @@ html {
 #nav-menu ul li a:hover {
     color: #e94560;
     opacity: 1;
+}
+
+/* Dropdown menu */
+.has-dropdown {
+    position: relative;
+}
+
+.dropdown {
+    position: absolute;
+    top: 120%;
+    left: 0;
+    background-color: #0e0e0e;
+    list-style: none;
+    padding: 14px 0;
+    min-width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 999;
+}
+
+.dropdown li {
+    padding: 8px 20px;
+}
+
+.dropdown li a {
+    font-size: 12.5px;
+    letter-spacing: 1.2px;
+    opacity: 0.8;
+}
+
+.has-dropdown:hover .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 /* Hamburger */
@@ -199,6 +249,8 @@ html {
         opacity: 0;
         pointer-events: none;
         transition: transform 0.35s ease, opacity 0.35s ease;
+
+        z-index: 1000;
     }
 
     /* When menu is open */
@@ -222,6 +274,18 @@ html {
         letter-spacing: 2.2px;
         opacity: 0.9;
     }
+
+    .dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        padding: 10px 0 0;
+    }
+
+    .dropdown li {
+        padding: 6px 0;
+    }
 }
 
 /* About Section */
@@ -236,12 +300,44 @@ html {
     margin-bottom: 20px;
 }
 
+.about h2#vision {
+    margin-top: 60px;
+    position: relative;
+}
+
+.about h2#vision::before {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 2px;
+    background-color: #e94560;
+    margin: 0 auto 20px;
+}
+
 .about p {
     max-width: 700px;
     margin: auto;
     font-size: 17px;
     opacity: 0.9;
     line-height: 1.8;
+}
+
+.about-cta {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 32px;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    color: white;
+    border: 1px solid #e94560;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.about-cta:hover {
+    background-color: #e94560;
+    color: #fff;
 }
 
 /* Contact Section */
