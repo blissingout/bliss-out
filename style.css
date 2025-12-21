@@ -9,6 +9,10 @@ html {
     scroll-behavior: smooth;
 }
 
+section {
+    position: relative;
+}
+
 /* Header "I deleted this part in the process of debugging" */
 
 .tagline {
@@ -50,15 +54,32 @@ html {
 /* Button lift effect */
 .hero button,
 .about-cta {
-    transition: 
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hero button:hover,
 .about-cta:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(233, 69, 96, 0.35);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* For buttons to navigate properly*/
+.hero-cta {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 32px;
+    font-size: 16px;
+    background-color: #9e041e;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-cta:hover {
+    background-color: #580713;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 
 /* Navbar Base */
@@ -68,7 +89,19 @@ html {
     align-items: center;
     padding: 20px 40px;
     background-color: #111;
-    flex-wrap: wrap; /* Important for mobile */
+    flex-wrap: wrap;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.navbar.hide {
+    transform: translateY(-100%);
+    box-shadow: none;
 }
 
 .navbar .logo {
@@ -148,6 +181,14 @@ html {
 #nav-menu ul li a:hover {
     color: #e94560;
     opacity: 1;
+}
+
+#nav-menu ul li {
+    transition: transform 0.25s ease;
+}
+
+#nav-menu ul li:hover {
+    transform: translateY(-1px);
 }
 
 /* Dropdown menu */
@@ -418,11 +459,11 @@ html {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.6s ease, opacity 0.4s ease;
+    transition: transform 0.8s ease, opacity 0.5s ease;
 }
 
 .gallery-item:hover img {
-    transform: scale(1.03);
+    transform: scale(1.04);
     opacity: 0.92;
 }
 
@@ -520,12 +561,38 @@ html {
 }
 
 .batch-card {
+    display: block;             
+    text-decoration: none;       
+    color: inherit;
     background: linear-gradient(180deg, #161616, #0f0f0f);
     padding: 35px;
     border-radius: 16px;
     text-align: left;
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.classes-cta {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.classes-cta p {
+    font-size: 16px;
+    opacity: 0.85;
+    margin-bottom: 24px;
+}
+
+.batch-tag {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    background-color: #e94560;
+    color: white;
 }
 
 .batch-card:hover {
@@ -552,6 +619,27 @@ html {
     opacity: 0.8;
 }
 
+/* Classes Page */
+.classes {
+    padding: 100px 20px 120px;
+    background-color: #1a1a2e;
+    text-align: center;
+}
+
+.classes-title {
+    font-size: 38px;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+}
+
+.classes-intro {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 17px;
+    opacity: 0.85;
+    line-height: 1.8;
+}
+
 /* Highlight Advanced Batch */
 .batch-card.highlight {
     border: 2px solid #e94560;
@@ -562,10 +650,19 @@ html {
 .fade-in {
     opacity: 0;
     transform: translateY(24px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
 }
 
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* section divider */
+.section-divider {
+    width: 60px;
+    height: 2px;
+    background-color: #e94560;
+    margin: 60px auto;
+    opacity: 0.8;
 }
