@@ -1,48 +1,69 @@
-function openLightbox(src) {
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =====================
+       Lightbox (Home page only)
+    ===================== */
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
-    lightboxImg.src = src;
-    lightbox.style.display = "flex";
-}
+    const lightboxClose = document.querySelector(".lightbox .close");
 
-document.querySelector(".lightbox .close").onclick = function () {
-    document.getElementById("lightbox").style.display = "none";
-};
+    if (lightbox && lightboxImg && lightboxClose) {
 
-document.getElementById("lightbox").onclick = function (e) {
-    if (e.target.id === "lightbox") {
-        this.style.display = "none";
+        window.openLightbox = function (src) {
+            lightboxImg.src = src;
+            lightbox.style.display = "flex";
+        };
+
+        lightboxClose.onclick = function () {
+            lightbox.style.display = "none";
+        };
+
+        lightbox.onclick = function (e) {
+            if (e.target === lightbox) {
+                lightbox.style.display = "none";
+            }
+        };
     }
-};
 
-document.addEventListener("DOMContentLoaded", function () {
+    /* =====================
+       Mobile Menu Logic
+    ===================== */
     const hamburger = document.querySelector(".hamburger");
     const navMenu = document.getElementById("nav-menu");
 
-    hamburger.addEventListener("click", function () {
-         navMenu.classList.toggle("active");
-         hamburger.classList.toggle("active");
-    });
+    if (hamburger && navMenu) {
 
-});
+        hamburger.addEventListener("click", function () {
+            navMenu.classList.toggle("active");
+            hamburger.classList.toggle("active");
+        });
 
-// Fade-in on scroll
-document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("#nav-menu a").forEach(link => {
+            link.addEventListener("click", () => {
+                navMenu.classList.remove("active");
+                hamburger.classList.remove("active");
+            });
+        });
+    }
+
+    /* =====================
+       Fade-in on Scroll
+    ===================== */
     const fadeElements = document.querySelectorAll(".fade-in");
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("visible");
-                    observer.unobserve(entry.target); // run once
-                }
-            });
-        },
-        {
-            threshold: 0.15
-        }
-    );
+    if (fadeElements.length > 0) {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.15 }
+        );
 
-    fadeElements.forEach((el) => observer.observe(el));
+        fadeElements.forEach((el) => observer.observe(el));
+    }
 });
