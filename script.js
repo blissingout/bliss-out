@@ -88,4 +88,34 @@ document.addEventListener("DOMContentLoaded", function () {
          lastScrollY = window.scrollY;
     });
 
+    /* =====================
+        Registration Form Handler
+    ===================== */
+
+    const registrationForm = document.getElementById("registrationForm");
+
+    if (registrationForm) {
+        registrationForm.addEventListener("submit", function (e) {
+            e.preventDefault(); // stop page reload
+
+            const formData = new FormData(registrationForm);
+
+            const data = {
+                batch: formData.get("batch"),
+                name: formData.get("name"),
+                age: formData.get("age"),
+                gender: formData.get("gender"),
+                address: formData.get("address"),
+                whatsapp: formData.get("whatsapp")
+            };
+
+            // TEMP: store data locally
+            localStorage.setItem("registrationData", JSON.stringify(data));
+
+            // Go to payment page (next step)
+            window.location.href = "payment.html";
+        });
+    }
+
+
 });
