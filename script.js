@@ -117,5 +117,32 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    /* =====================
+        Payment Page Logic
+    ===================== */
+
+    const paymentBox = document.getElementById("paymentSummary");
+
+    if (paymentBox) {
+        const data = JSON.parse(localStorage.getItem("registrationData"));
+
+        if (!data) {
+            paymentBox.innerHTML = "<p>No registration data found.</p>";
+        } else {
+            let amount = 0;
+
+            if (data.batch.includes("Beginner")) amount = 1500;
+            if (data.batch.includes("Intermediate")) amount = 2000;
+            if (data.batch.includes("Advanced")) amount = 2500;
+
+            paymentBox.innerHTML = `
+                <p><strong>Name:</strong> ${data.name}</p>
+                <p><strong>Batch:</strong> ${data.batch}</p>
+                <p><strong>WhatsApp:</strong> ${data.whatsapp}</p>
+                <p><strong>Amount Payable:</strong> ₹${amount}</p>
+            `;
+        }
+    }
+
 
 });
