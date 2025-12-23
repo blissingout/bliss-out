@@ -109,10 +109,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 whatsapp: formData.get("whatsapp")
             };
 
-            // TEMP: store data locally
-            localStorage.setItem("registrationData", JSON.stringify(data));
+            const passId = generatePassId(data.batch);
 
-            // Go to payment page (next step)
+            const finalData = {
+                ...data,
+                passId: passId,
+                status: "Pending Payment"
+            };
+
+            localStorage.setItem("registrationData", JSON.stringify(finalData));
+
             window.location.href = "payment.html";
         });
     }
@@ -141,6 +147,50 @@ document.addEventListener("DOMContentLoaded", function () {
                 <p><strong>WhatsApp:</strong> ${data.whatsapp}</p>
                 <p><strong>Amount Payable:</strong> ₹${amount}</p>
             `;
+        }
+    }
+
+    function generatePassId(batch) {
+    const code = batch.includes("Beginner")
+        ? "BEG"
+        : batch.includes("Intermediate")
+        ? "INT"
+        : "ADV";
+
+    const random = Math.floor(10000 + Math.random() * 90000);
+    return `BLISS-${code}-${random}`;
+    }
+
+    /* =====================
+        Entry Pass Page Logic
+    ===================== */
+
+    const passBox = document.getElementById("passDetails");
+    const whatsappBtn = document.getElementById("whatsappBtn");
+
+    if (passBox && whatsappBtn) {
+        const data = JSON.parse(localStorage.getItem("registrationData"));
+
+        if (!data) {
+            passBox.innerHTML = "<p>No pass data found.</p>";
+        } else {
+            passBox.innerHTML = `
+                <p><strong>Pass ID:</strong> ${data.passId}</p>
+                <p><strong>Name:</strong> ${data.name}</p>
+                <p><strong>Batch:</strong> ${data.batch}</p>
+                <p><strong>Status:</strong> ${data.status}</p>
+            `;
+
+            const message = encodeURIComponent(
+                `Hello Bliss Out 👋\n\n` +
+                `I have registered successfully.\n\n` +
+                `Name: ${data.name}\n` +
+                `Batch: ${data.batch}\n` +
+                `Pass ID: ${data.passId}\n\n` +
+                `Please guide me for payment confirmation.`
+            );
+
+            whatsappBtn.href = `https://wa.me/918964033641?text=${message}`;
         }
     }
 
