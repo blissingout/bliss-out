@@ -127,29 +127,6 @@ document.addEventListener("DOMContentLoaded", function () {
         Payment Page Logic
     ===================== */
 
-    const paymentBox = document.getElementById("paymentSummary");
-
-    if (paymentBox) {
-        const data = JSON.parse(localStorage.getItem("registrationData"));
-
-        if (!data) {
-            paymentBox.innerHTML = "<p>No registration data found.</p>";
-        } else {
-            let amount = 0;
-
-            if (data.batch.includes("Beginner")) amount = 1500;
-            if (data.batch.includes("Intermediate")) amount = 2000;
-            if (data.batch.includes("Advanced")) amount = 2500;
-
-            paymentBox.innerHTML = `
-                <p><strong>Name:</strong> ${data.name}</p>
-                <p><strong>Batch:</strong> ${data.batch}</p>
-                <p><strong>WhatsApp:</strong> ${data.whatsapp}</p>
-                <p><strong>Amount Payable:</strong> ₹${amount}</p>
-            `;
-        }
-    }
-
     function generatePassId(batch) {
     const code = batch.includes("Beginner")
         ? "BEG"
@@ -159,6 +136,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const random = Math.floor(10000 + Math.random() * 90000);
     return `BLISS-${code}-${random}`;
+    }
+
+
+    /* =====================
+        Payment Page Details
+    ===================== */
+
+    const paymentSummary = document.getElementById("paymentSummary");
+
+    if (paymentSummary) {
+        const data = JSON.parse(localStorage.getItem("registrationData"));
+
+        if (data) {
+            document.getElementById("batchInfo").innerText =
+                `Batch: ${data.batch}`;
+
+            let amount = "₹1500";
+
+            if (data.batch.includes("Intermediate")) amount = "₹2000";
+            if (data.batch.includes("Advanced")) amount = "₹2500";
+
+            document.getElementById("amountInfo").innerText =
+                `Amount to Pay: ${amount}`;
+        }
     }
 
     /* =====================
@@ -175,10 +176,18 @@ document.addEventListener("DOMContentLoaded", function () {
             passBox.innerHTML = "<p>No pass data found.</p>";
         } else {
             passBox.innerHTML = `
-                <p><strong>Pass ID:</strong> ${data.passId}</p>
+                <h2>Bliss Out Dance Studio</h2>
+
                 <p><strong>Name:</strong> ${data.name}</p>
                 <p><strong>Batch:</strong> ${data.batch}</p>
-                <p><strong>Status:</strong> ${data.status}</p>
+
+                <div class="pass-id">
+                    PASS ID: ${data.passId}
+                </div>
+
+                <div class="pass-status">
+                    Status: ${data.status}
+                </div>
             `;
 
             const message = encodeURIComponent(
@@ -194,5 +203,28 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    /* =====================
+        Payment Confirmation
+    ===================== */
+
+    const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
+
+    if (confirmPaymentBtn) {
+        confirmPaymentBtn.addEventListener("click", () => {
+            const data = JSON.parse(localStorage.getItem("registrationData"));
+
+            if (!data) {
+                alert("No registration found.");
+                return;
+            }
+
+            // Update status
+            data.status = "Payment Completed";
+            localStorage.setItem("registrationData", JSON.stringify(data));
+
+            // Redirect to pass page
+            window.location.href = "pass.html";
+        });
+    }
 
 });
