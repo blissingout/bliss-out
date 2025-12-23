@@ -21,11 +21,52 @@
     <div class="section-divider"></div>
 
     <div class="contact-form" id="paymentSummary">
-        <!-- Filled by JS -->
+
+        <h3 style="margin-bottom:10px;">Payment Details</h3>
+
+        <p id="batchInfo"></p>
+        <p id="amountInfo" style="font-weight:bold;"></p>
+
+        <div style="margin:25px 0;">
+            <p style="opacity:0.85; font-size:14px;">
+                Pay using UPI QR or UPI ID below
+            </p>
+
+            <!-- QR Placeholder -->
+            <div style="
+                margin: 15px auto;
+                width: 200px;
+                height: 200px;
+                background-color: #000;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                border-radius:10px;
+            ">
+                <span style="opacity:0.6;">QR CODE</span>
+            </div>
+
+            <p style="font-size:14px; opacity:0.9;">
+                UPI ID: <strong>blissout@upi</strong>
+            </p>
+        </div>
+
+        <p style="font-size:13px; opacity:0.7;">
+            After completing payment, click <strong>Confirm Payment</strong>.
+        </p>
+
     </div>
 
-    <button class="about-cta" style="margin-top:30px;">
-        Pay Now
+    <button id="confirmPaymentBtn" style="
+        margin-top: 30px;
+        padding: 14px;
+        font-size: 16px;
+        background-color: #e94560;
+        color: white;
+        border: none;
+        cursor: pointer;
+    ">
+        Confirm Payment
     </button>
 </section>
 
