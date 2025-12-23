@@ -673,3 +673,40 @@ section {
     margin: 60px auto;
     opacity: 0.8;
 }
+
+/* Entry Pass */
+.entry-pass {
+    max-width: 420px;
+    margin: 30px auto;
+    padding: 30px;
+    background: linear-gradient(180deg, #0f3460, #1a1a2e);
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.entry-pass h2 {
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.entry-pass p {
+    font-size: 15px;
+    margin: 8px 0;
+    opacity: 0.9;
+}
+
+.pass-id {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px dashed #e94560;
+    border-radius: 8px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.pass-status {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #ffcf40;
+}
