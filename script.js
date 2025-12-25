@@ -3,79 +3,6 @@ const BACKEND_URL = "https://blissout-backend.onrender.com";
 document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================
-       LIGHTBOX (HOME PAGE)
-    ===================== */
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const lightboxClose = document.querySelector(".lightbox .close");
-
-    if (lightbox && lightboxImg && lightboxClose) {
-        window.openLightbox = function (src) {
-            lightboxImg.src = src;
-            lightbox.style.display = "flex";
-        };
-
-        lightboxClose.onclick = () => lightbox.style.display = "none";
-        lightbox.onclick = (e) => {
-            if (e.target === lightbox) lightbox.style.display = "none";
-        };
-    }
-
-    /* =====================
-       MOBILE MENU
-    ===================== */
-    const hamburger = document.querySelector(".hamburger");
-    const navMenu = document.getElementById("nav-menu");
-
-    if (hamburger && navMenu) {
-        hamburger.addEventListener("click", () => {
-            hamburger.classList.toggle("active");
-            navMenu.classList.toggle("active");
-        });
-
-        document.querySelectorAll("#nav-menu a").forEach(link => {
-            link.addEventListener("click", () => {
-                hamburger.classList.remove("active");
-                navMenu.classList.remove("active");
-            });
-        });
-    }
-
-    /* =====================
-       FADE IN ON SCROLL
-    ===================== */
-    const fadeElements = document.querySelectorAll(".fade-in");
-    if (fadeElements.length) {
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("visible");
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-
-        fadeElements.forEach(el => observer.observe(el));
-    }
-
-    /* =====================
-       HIDE / SHOW NAVBAR
-    ===================== */
-    let lastScrollY = window.scrollY;
-    const navbar = document.querySelector(".navbar");
-
-    window.addEventListener("scroll", () => {
-        if (!navbar || navMenu?.classList.contains("active")) return;
-
-        if (window.scrollY > lastScrollY && window.scrollY > 100) {
-            navbar.classList.add("hide");
-        } else {
-            navbar.classList.remove("hide");
-        }
-        lastScrollY = window.scrollY;
-    });
-
-    /* =====================
        REGISTRATION FORM
     ===================== */
     const registrationForm = document.getElementById("registrationForm");
@@ -107,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
             : batch.includes("Intermediate")
             ? "INT"
             : "ADV";
+
         return `BLISS-${code}-${Math.floor(10000 + Math.random() * 90000)}`;
     }
 
@@ -117,14 +45,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (paymentSummary) {
         const data = JSON.parse(localStorage.getItem("registrationData"));
-        if (data) {
-            let amount = 1500;
-            if (data.batch.includes("Intermediate")) amount = 2000;
-            if (data.batch.includes("Advanced")) amount = 2500;
+        if (!data) return;
 
-            document.getElementById("batchInfo").innerText = `Batch: ${data.batch}`;
-            document.getElementById("amountInfo").innerText = `Amount to Pay: ₹${amount}`;
-        }
+        let amount = 1500;
+        if (data.batch.includes("Intermediate")) amount = 2000;
+        if (data.batch.includes("Advanced")) amount = 2500;
+
+        document.getElementById("batchInfo").innerText = `Batch: ${data.batch}`;
+        document.getElementById("amountInfo").innerText = `Amount to Pay: ₹${amount}`;
     }
 
     /* =====================
@@ -159,35 +87,30 @@ document.addEventListener("DOMContentLoaded", function () {
                     order_id: order.id,
 
                     handler: async function (response) {
-                        try {
-                            const verifyRes = await fetch(`${BACKEND_URL}/verify-payment`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                    razorpay_order_id: response.razorpay_order_id,
-                                    razorpay_payment_id: response.razorpay_payment_id,
-                                    razorpay_signature: response.razorpay_signature
-                                })
-                            });
+                        const verifyRes = await fetch(`${BACKEND_URL}/verify-payment`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature
+                            })
+                        });
 
-                            const result = await verifyRes.json();
+                        const result = await verifyRes.json();
 
-                            if (result.success) {
-                                localStorage.setItem("payment_id", response.razorpay_payment_id);
-                                localStorage.setItem("batch", data.batch);
-                                localStorage.setItem("amount", amount);
+                        if (result.success) {
+                            localStorage.setItem("payment_id", response.razorpay_payment_id);
+                            localStorage.setItem("batch", data.batch);
+                            localStorage.setItem("amount", amount);
 
-                                data.status = "Payment Completed";
-                                data.paymentId = response.razorpay_payment_id;
-                                localStorage.setItem("registrationData", JSON.stringify(data));
+                            data.status = "Payment Completed";
+                            data.paymentId = response.razorpay_payment_id;
+                            localStorage.setItem("registrationData", JSON.stringify(data));
 
-                                window.location.href = "payment-success.html";
-                            } else {
-                                alert("Payment verification failed");
-                            }
-                        } catch (err) {
-                            alert("Payment verification error");
-                            console.error(err);
+                            window.location.href = "payment-success.html";
+                        } else {
+                            alert("Payment verification failed");
                         }
                     },
 
@@ -197,8 +120,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 new Razorpay(options).open();
 
             } catch (err) {
-                alert("Payment error");
                 console.error(err);
+                alert("Payment error");
             }
         });
     }
