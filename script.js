@@ -1,3 +1,5 @@
+const BACKEND_URL = "https://blissout-backend.onrender.com";
+
 document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================
@@ -224,7 +226,7 @@ if (confirmPaymentBtn) {
 
         try {
             // 1️⃣ Create order from backend
-            const orderRes = await fetch("http://localhost:5000/create-order", {
+            const orderRes = await fetch(`${BACKEND_URL}/create-order`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ amount })
@@ -243,7 +245,7 @@ if (confirmPaymentBtn) {
 
                 handler: async function (response) {
                     // 3️⃣ Verify payment on backend
-                    const verifyRes = await fetch("http://localhost:5000/verify-payment", {
+                    const verifyRes = await fetch(`${BACKEND_URL}/verify-payment`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(response)
