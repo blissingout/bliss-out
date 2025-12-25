@@ -1,9 +1,9 @@
 const BACKEND_URL = "https://blissout-backend.onrender.com";
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================
-       REGISTRATION FORM
+       REGISTRATION
     ===================== */
     const registrationForm = document.getElementById("registrationForm");
 
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* =====================
-       PAYMENT PAGE DETAILS
+       PAYMENT PAGE
     ===================== */
     const paymentSummary = document.getElementById("paymentSummary");
 
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* =====================
-       PAYMENT CONFIRMATION
+       RAZORPAY PAYMENT
     ===================== */
     const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
 
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     description: data.batch,
                     order_id: order.id,
 
-                    handler: async function (response) {
+                    handler: async response => {
                         const verifyRes = await fetch(`${BACKEND_URL}/verify-payment`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     },
 
-                    theme: { color: "#e94560" }
+                    theme: { color: "#c0392b" }
                 };
 
                 new Razorpay(options).open();
@@ -130,8 +130,10 @@ document.addEventListener("DOMContentLoaded", function () {
        PAYMENT SUCCESS PAGE
     ===================== */
     if (window.location.pathname.includes("payment-success")) {
-        const paymentId = localStorage.getItem("payment_id");
-        if (!paymentId) window.location.href = "index.html";
+        if (!localStorage.getItem("payment_id")) {
+            window.location.href = "index.html";
+            return;
+        }
 
         document.getElementById("successBatch").innerText =
             `Batch: ${localStorage.getItem("batch")}`;
@@ -140,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
             `Amount Paid: ₹${localStorage.getItem("amount")}`;
 
         document.getElementById("successPaymentId").innerText =
-            `Payment ID: ${paymentId}`;
+            `Payment ID: ${localStorage.getItem("payment_id")}`;
     }
 
     /* =====================
@@ -152,5 +154,4 @@ document.addEventListener("DOMContentLoaded", function () {
     ) {
         window.location.href = "index.html";
     }
-
 });
