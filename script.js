@@ -3,282 +3,231 @@ const BACKEND_URL = "https://blissout-backend.onrender.com";
 document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================
-       Lightbox (Home page only)
+       LIGHTBOX (HOME PAGE)
     ===================== */
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const lightboxClose = document.querySelector(".lightbox .close");
 
     if (lightbox && lightboxImg && lightboxClose) {
-
         window.openLightbox = function (src) {
             lightboxImg.src = src;
             lightbox.style.display = "flex";
         };
 
-        lightboxClose.onclick = function () {
-            lightbox.style.display = "none";
-        };
-
-        lightbox.onclick = function (e) {
-            if (e.target === lightbox) {
-                lightbox.style.display = "none";
-            }
+        lightboxClose.onclick = () => lightbox.style.display = "none";
+        lightbox.onclick = (e) => {
+            if (e.target === lightbox) lightbox.style.display = "none";
         };
     }
 
     /* =====================
-       Mobile Menu Logic
+       MOBILE MENU
     ===================== */
     const hamburger = document.querySelector(".hamburger");
     const navMenu = document.getElementById("nav-menu");
 
     if (hamburger && navMenu) {
-
-        hamburger.addEventListener("click", function () {
-            navMenu.classList.toggle("active");
+        hamburger.addEventListener("click", () => {
             hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
         });
 
         document.querySelectorAll("#nav-menu a").forEach(link => {
             link.addEventListener("click", () => {
-                navMenu.classList.remove("active");
                 hamburger.classList.remove("active");
+                navMenu.classList.remove("active");
             });
         });
     }
 
     /* =====================
-       Fade-in on Scroll
+       FADE IN ON SCROLL
     ===================== */
     const fadeElements = document.querySelectorAll(".fade-in");
+    if (fadeElements.length) {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
 
-    if (fadeElements.length > 0) {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            { threshold: 0.15 }
-        );
-
-        fadeElements.forEach((el) => observer.observe(el));
+        fadeElements.forEach(el => observer.observe(el));
     }
 
     /* =====================
-       Disappearing and appearing menu
+       HIDE / SHOW NAVBAR
     ===================== */
-
     let lastScrollY = window.scrollY;
     const navbar = document.querySelector(".navbar");
 
     window.addEventListener("scroll", () => {
-         if (!navbar || navMenu.classList.contains("active")) return;
+        if (!navbar || navMenu?.classList.contains("active")) return;
 
-         if (window.scrollY > lastScrollY && window.scrollY > 100) {
-             // scrolling down
-             navbar.classList.add("hide");
-         } else {
-             // scrolling up
-             navbar.classList.remove("hide");
-         }
-
-         lastScrollY = window.scrollY;
+        if (window.scrollY > lastScrollY && window.scrollY > 100) {
+            navbar.classList.add("hide");
+        } else {
+            navbar.classList.remove("hide");
+        }
+        lastScrollY = window.scrollY;
     });
 
     /* =====================
-        Registration Form Handler
+       REGISTRATION FORM
     ===================== */
-
     const registrationForm = document.getElementById("registrationForm");
 
     if (registrationForm) {
-        registrationForm.addEventListener("submit", function (e) {
-            e.preventDefault(); // stop page reload
+        registrationForm.addEventListener("submit", e => {
+            e.preventDefault();
 
             const formData = new FormData(registrationForm);
-
             const data = {
                 batch: formData.get("batch"),
                 name: formData.get("name"),
                 age: formData.get("age"),
                 gender: formData.get("gender"),
                 address: formData.get("address"),
-                whatsapp: formData.get("whatsapp")
-            };
-
-            const passId = generatePassId(data.batch);
-
-            const finalData = {
-                ...data,
-                passId: passId,
+                whatsapp: formData.get("whatsapp"),
+                passId: generatePassId(formData.get("batch")),
                 status: "Pending Payment"
             };
 
-            localStorage.setItem("registrationData", JSON.stringify(finalData));
-
+            localStorage.setItem("registrationData", JSON.stringify(data));
             window.location.href = "payment.html";
         });
     }
 
-    /* =====================
-        Payment Page Logic
-    ===================== */
-
     function generatePassId(batch) {
-    const code = batch.includes("Beginner")
-        ? "BEG"
-        : batch.includes("Intermediate")
-        ? "INT"
-        : "ADV";
-
-    const random = Math.floor(10000 + Math.random() * 90000);
-    return `BLISS-${code}-${random}`;
+        const code = batch.includes("Beginner")
+            ? "BEG"
+            : batch.includes("Intermediate")
+            ? "INT"
+            : "ADV";
+        return `BLISS-${code}-${Math.floor(10000 + Math.random() * 90000)}`;
     }
 
-
     /* =====================
-        Payment Page Details
+       PAYMENT PAGE DETAILS
     ===================== */
-
     const paymentSummary = document.getElementById("paymentSummary");
 
     if (paymentSummary) {
         const data = JSON.parse(localStorage.getItem("registrationData"));
-
         if (data) {
-            document.getElementById("batchInfo").innerText =
-                `Batch: ${data.batch}`;
+            let amount = 1500;
+            if (data.batch.includes("Intermediate")) amount = 2000;
+            if (data.batch.includes("Advanced")) amount = 2500;
 
-            let amount = "₹1500";
-
-            if (data.batch.includes("Intermediate")) amount = "₹2000";
-            if (data.batch.includes("Advanced")) amount = "₹2500";
-
-            document.getElementById("amountInfo").innerText =
-                `Amount to Pay: ${amount}`;
+            document.getElementById("batchInfo").innerText = `Batch: ${data.batch}`;
+            document.getElementById("amountInfo").innerText = `Amount to Pay: ₹${amount}`;
         }
     }
 
     /* =====================
-        Entry Pass Page Logic
+       PAYMENT CONFIRMATION
     ===================== */
-
-    const passBox = document.getElementById("passDetails");
-    const whatsappBtn = document.getElementById("whatsappBtn");
-
-    if (passBox && whatsappBtn) {
-        const data = JSON.parse(localStorage.getItem("registrationData"));
-
-        if (!data) {
-            passBox.innerHTML = "<p>No pass data found.</p>";
-        } else {
-            passBox.innerHTML = `
-                <h2>Bliss Out Dance Studio</h2>
-
-                <p><strong>Name:</strong> ${data.name}</p>
-                <p><strong>Batch:</strong> ${data.batch}</p>
-
-                <div class="pass-id">
-                    PASS ID: ${data.passId}
-                </div>
-
-                <div class="pass-status">
-                    Status: ${data.status}
-                </div>
-            `;
-
-            const message = encodeURIComponent(
-                `Hello Bliss Out 👋\n\n` +
-                `I have registered successfully.\n\n` +
-                `Name: ${data.name}\n` +
-                `Batch: ${data.batch}\n` +
-                `Pass ID: ${data.passId}\n\n` +
-                `Please guide me for payment confirmation.`
-            );
-
-            whatsappBtn.href = `https://wa.me/918964033641?text=${message}`;
-        }
-    }
-
-    /* =====================
-        Payment Confirmation
-    ===================== */
-
     const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
 
-if (confirmPaymentBtn) {
-    confirmPaymentBtn.addEventListener("click", async () => {
-        const data = JSON.parse(localStorage.getItem("registrationData"));
-        if (!data) {
-            alert("No registration found");
-            return;
-        }
+    if (confirmPaymentBtn) {
+        confirmPaymentBtn.addEventListener("click", async () => {
+            const data = JSON.parse(localStorage.getItem("registrationData"));
+            if (!data) return alert("No registration found");
 
-        // Decide amount
-        let amount = 1500;
-        if (data.batch.includes("Intermediate")) amount = 2000;
-        if (data.batch.includes("Advanced")) amount = 2500;
+            let amount = 1500;
+            if (data.batch.includes("Intermediate")) amount = 2000;
+            if (data.batch.includes("Advanced")) amount = 2500;
 
-        try {
-            // 1️⃣ Create order from backend
-            const orderRes = await fetch(`${BACKEND_URL}/create-order`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ amount })
-            });
+            try {
+                const orderRes = await fetch(`${BACKEND_URL}/create-order`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ amount })
+                });
 
-            const order = await orderRes.json();
+                const order = await orderRes.json();
 
-            // 2️⃣ Open Razorpay checkout
-            const options = {
-                key: "rzp_test_RvL7VYt7d6Awls", // 🔴 your TEST key only
-                amount: order.amount,
-                currency: "INR",
-                name: "Bliss Out Dance Studio",
-                description: data.batch,
-                order_id: order.id,
+                const options = {
+                    key: "rzp_test_RvL7VYt7d6Awls",
+                    amount: order.amount,
+                    currency: "INR",
+                    name: "Bliss Out Dance Studio",
+                    description: data.batch,
+                    order_id: order.id,
 
-                handler: async function (response) {
-                    // 3️⃣ Verify payment on backend
-                    const verifyRes = await fetch(`${BACKEND_URL}/verify-payment`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(response)
-                    });
+                    handler: async function (response) {
+                        try {
+                            const verifyRes = await fetch(`${BACKEND_URL}/verify-payment`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_signature: response.razorpay_signature
+                                })
+                            });
 
-                    const verifyData = await verifyRes.json();
+                            const result = await verifyRes.json();
 
-                    if (verifyData.status === "success") {
-                        data.status = "Payment Completed";
-                        data.paymentId = response.razorpay_payment_id;
+                            if (result.success) {
+                                localStorage.setItem("payment_id", response.razorpay_payment_id);
+                                localStorage.setItem("batch", data.batch);
+                                localStorage.setItem("amount", amount);
 
-                        localStorage.setItem(
-                            "registrationData",
-                            JSON.stringify(data)
-                        );
+                                data.status = "Payment Completed";
+                                data.paymentId = response.razorpay_payment_id;
+                                localStorage.setItem("registrationData", JSON.stringify(data));
 
-                        window.location.href = "pass.html";
-                    } else {
-                        alert("Payment verification failed");
-                    }
-                },
+                                window.location.href = "payment-success.html";
+                            } else {
+                                alert("Payment verification failed");
+                            }
+                        } catch (err) {
+                            alert("Payment verification error");
+                            console.error(err);
+                        }
+                    },
 
-                theme: { color: "#e94560" }
-            };
+                    theme: { color: "#e94560" }
+                };
 
-            const rzp = new Razorpay(options);
-            rzp.open();
+                new Razorpay(options).open();
 
-        } catch (err) {
-            alert("Something went wrong. Try again.");
-            console.error(err);
-        }
-    });
-}
+            } catch (err) {
+                alert("Payment error");
+                console.error(err);
+            }
+        });
+    }
+
+    /* =====================
+       PAYMENT SUCCESS PAGE
+    ===================== */
+    if (window.location.pathname.includes("payment-success")) {
+        const paymentId = localStorage.getItem("payment_id");
+        if (!paymentId) window.location.href = "index.html";
+
+        document.getElementById("successBatch").innerText =
+            `Batch: ${localStorage.getItem("batch")}`;
+
+        document.getElementById("successAmount").innerText =
+            `Amount Paid: ₹${localStorage.getItem("amount")}`;
+
+        document.getElementById("successPaymentId").innerText =
+            `Payment ID: ${paymentId}`;
+    }
+
+    /* =====================
+       PASS PAGE PROTECTION
+    ===================== */
+    if (
+        window.location.pathname.includes("pass.html") &&
+        !localStorage.getItem("payment_id")
+    ) {
+        window.location.href = "index.html";
+    }
 
 });
