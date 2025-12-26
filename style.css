@@ -27,7 +27,7 @@ section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
+    padding: 28px 18px;
     background-color: #0b0b0b;
     box-shadow: none;
     position: sticky;
@@ -49,19 +49,22 @@ section {
 #nav-menu ul {
     list-style: none;
     display: flex;
-    gap: 30px;
+    gap: 48px;
 }
 
 #nav-menu ul li a {
-    color: #eaeaea;
+    color: #ffffff;
     text-decoration: none;
-    font-size: 13.5px;
-    letter-spacing: 1.8px;
-    opacity: 0.75;
+
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2px;
+
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
 }
 
 #nav-menu ul li a:hover {
-    color: #e94560;
     opacity: 1;
 }
 
@@ -72,15 +75,15 @@ section {
 
 .dropdown {
     position: absolute;
-    top: 120%;
+    top: 140%;
     left: 0;
-    background-color: #0e0e0e;
-    padding: 14px 0;
-    min-width: 180px;
+    background-color: #0b0b0b;
+    padding: 12px 0;
+    min-width: 200px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(8px);
-    transition: 0.3s;
+    transform: translateY(6px);
+    transition:  0.3s ease;
 }
 
 .has-dropdown:hover .dropdown {
