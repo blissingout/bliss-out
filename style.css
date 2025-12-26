@@ -26,7 +26,20 @@ h1, h2, h3 {
 /* FIX: sections must have spacing */
 section {
     position: relative;
-    padding: 80px 20px;
+    padding: 120px 20px;
+}
+
+section h2 {
+    font-size: 36px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.section-divider {
+    width: 60px;
+    height: 1px;
+    background-color: rgba(255,255,255,0.25);
+    margin: 100px auto;
 }
 
 /* ================= NAVBAR ================= */
