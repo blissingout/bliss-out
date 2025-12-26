@@ -154,4 +154,48 @@ document.addEventListener("DOMContentLoaded", () => {
     ) {
         window.location.href = "index.html";
     }
+
+    /* =====================
+       PASS PAGE + WHATSAPP
+    ===================== */
+    if (window.location.pathname.includes("pass.html")) {
+        const data = JSON.parse(localStorage.getItem("registrationData"));
+        const paymentId = localStorage.getItem("payment_id");
+
+        if (!data || !paymentId) {
+            window.location.href = "index.html";
+            return;
+        }
+
+        const passContainer = document.getElementById("passDetails");
+
+        // Show pass details (temporary simple pass)
+        passContainer.innerHTML = `
+            <h3>🎟 Entry Pass</h3>
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>Batch:</strong> ${data.batch}</p>
+            <p><strong>Pass ID:</strong> ${data.passId}</p>
+            <p><strong>Status:</strong> ${data.status}</p>
+        `;
+
+        // WhatsApp message
+        const message = `
+    Hello Bliss Out Dance Studio 👋
+
+    I have completed my registration.
+
+    Name: ${data.name}
+    Batch: ${data.batch}
+    Pass ID: ${data.passId}
+    Payment ID: ${paymentId}
+
+    Please confirm my entry. Thank you!
+        `.trim();
+
+        const whatsappBtn = document.getElementById("whatsappBtn");
+        const phoneNumber = "918964033641"; // without + or spaces
+
+        whatsappBtn.href =
+            `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    }
 });
