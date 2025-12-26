@@ -1,214 +1,190 @@
-/* =====================
-   GLOBAL
-===================== */
-body {
+/* RESET */
+* {
     margin: 0;
-    background-color: #1b120d; /* dark brown */
-    color: #f5f1ec; /* FIX: readable text */
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BASE */
+body {
+    background: #0f0f1a;
+    color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
 }
 
 html {
     scroll-behavior: smooth;
 }
 
-section {
-    position: relative;
-}
-
-/* =====================
-   HERO
-===================== */
-.hero {
-    text-align: center;
-    padding: 80px 20px;
-}
-
-.hero h2 {
-    font-size: 36px;
-    color: #f5f1ec;
-}
-
-.hero p {
-    max-width: 600px;
-    margin: 20px auto;
-    font-size: 18px;
-    color: #e8dfd6; /* FIX */
-}
-
-.hero-cta {
-    display: inline-block;
-    margin-top: 30px;
-    padding: 12px 32px;
-    font-size: 16px;
-    background-color: #9e041e;
-    color: white;
-    text-decoration: none;
-    border-radius: 30px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hero-cta:hover {
-    background-color: #580713;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-}
-
-/* =====================
-   NAVBAR (UNCHANGED LOGIC)
-===================== */
+/* NAVBAR */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    background-color: #120a05; /* dark brown */
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    padding: 18px 40px;
+    background: #0b0b14;
     position: sticky;
     top: 0;
-    z-index: 2000;
-    transition: transform 0.35s ease;
-}
-
-.navbar.hide {
-    transform: translateY(-100%);
+    z-index: 1000;
 }
 
 .logo-text {
-    color: #f5f1ec;
-    letter-spacing: 1.2px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
-/* =====================
-   NAV MENU
-===================== */
-#nav-menu ul li a {
-    color: #e8dfd6;
-    opacity: 1; /* FIX */
+#nav-menu ul {
+    display: flex;
+    gap: 25px;
+    list-style: none;
 }
 
-#nav-menu ul li a:hover {
+#nav-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+#nav-menu a:hover {
     color: #e94560;
 }
 
-/* =====================
-   ABOUT
-===================== */
-.about {
-    background-color: #2a1a10; /* dark brown */
+/* DROPDOWN */
+.has-dropdown {
+    position: relative;
+}
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #141428;
+    display: none;
+    flex-direction: column;
+    padding: 10px 0;
+}
+
+.has-dropdown:hover .dropdown {
+    display: flex;
+}
+
+.dropdown a {
+    padding: 8px 20px;
+    white-space: nowrap;
+}
+
+/* SECTIONS (THIS WAS MISSING) */
+section {
     padding: 80px 20px;
+    min-height: 60vh;
+}
+
+/* HERO */
+.hero {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
-.about h2 {
-    font-size: 32px;
-    color: #f5f1ec;
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
 }
 
-.about p {
-    max-width: 700px;
-    margin: auto;
-    font-size: 17px;
-    color: #e8dfd6; /* FIX */
-    line-height: 1.8;
+.hero p {
+    max-width: 600px;
+    opacity: 0.85;
 }
 
-/* =====================
-   CLASSES
-===================== */
-.classes {
-    padding: 100px 20px;
-    background-color: #1f140c;
-    text-align: center;
+.hero-cta {
+    margin-top: 30px;
+    padding: 12px 30px;
+    background: #e94560;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
-.classes-title {
-    font-size: 38px;
-    color: #f5f1ec;
-}
-
-.classes-intro {
-    max-width: 700px;
-    margin: auto;
-    font-size: 17px;
-    color: #e8dfd6;
-}
-
-/* =====================
-   CONTACT
-===================== */
+/* ABOUT / CLASSES / CONTACT */
+.about,
+.classes,
 .contact {
-    background-color: #24160d;
-    padding: 80px 20px;
     text-align: center;
 }
 
-.contact h2 {
-    font-size: 32px;
-    color: #f5f1ec;
+.about-cta {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    background: #e94560;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
-.contact-info p {
-    font-size: 16px;
-    color: #e8dfd6;
+/* GALLERY */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    max-width: 1100px;
+    margin: 30px auto 0;
 }
 
-/* =====================
-   GALLERY
-===================== */
-.gallery {
-    background-color: #1b120d;
-    padding: 100px 20px;
+.gallery-grid img {
+    width: 100%;
+    border-radius: 8px;
 }
 
-.gallery h2 {
-    font-size: 32px;
-    color: #f5f1ec;
+/* CONTACT FORM */
+.contact-form {
+    max-width: 500px;
+    margin: 30px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-/* =====================
-   FOOTER
-===================== */
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+.contact-form button {
+    background: #e94560;
+    color: white;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+/* FOOTER */
 .footer {
-    background-color: #120a05;
-    padding: 70px 20px;
+    background: #0b0b14;
+    padding: 30px 20px;
     text-align: center;
+    margin-top: 80px;
 }
 
-.footer-content p,
-.footer-links li a {
-    color: #e8dfd6;
-    opacity: 1; /* FIX */
-}
-
-/* =====================
-   SECTION DIVIDER
-===================== */
-.section-divider {
-    width: 60px;
-    height: 2px;
-    background-color: #e94560;
-    margin: 60px auto;
-}
-
-/* =====================
-   FADE-IN (UNCHANGED)
-===================== */
+/* FADE-IN */
 .fade-in {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+    animation: fadeIn 1s ease forwards;
 }
 
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* =====================
-   ENTRY PASS
-===================== */
-.entry-pass {
-    background: linear-gradient(180deg, #2a1a10, #1b120d);
-    color: #f5f1ec;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
