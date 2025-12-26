@@ -171,12 +171,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Show pass details (temporary simple pass)
         passContainer.innerHTML = `
-            <h3>🎟 Entry Pass</h3>
-            <p><strong>Name:</strong> ${data.name}</p>
-            <p><strong>Batch:</strong> ${data.batch}</p>
-            <p><strong>Pass ID:</strong> ${data.passId}</p>
-            <p><strong>Status:</strong> ${data.status}</p>
-        `;
+        <h3>🎟 Bliss Out Entry Pass</h3>
+
+        <p><strong>Name:</strong> ${data.name}</p>
+        <p><strong>Age:</strong> ${data.age}</p>
+        <p><strong>Batch:</strong> ${data.batch}</p>
+        <p><strong>WhatsApp:</strong> ${data.whatsapp}</p>
+
+        <div class="pass-id">
+            Pass ID: ${data.passId}<br>
+            Payment ID: ${paymentId}
+        </div>
+    `;
 
         // WhatsApp message
         const message = `
