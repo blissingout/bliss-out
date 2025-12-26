@@ -9,11 +9,18 @@
 body {
     background-color: #1a1a2e;
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
 }
 
 html {
     scroll-behavior: smooth;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
 /* FIX: sections must have spacing */
@@ -106,7 +113,8 @@ section {
 }
 
 .hero h1 {
-    font-size: 42px;
+    font-size: 46px;
+    line-height: 1.2;
 }
 
 .hero p {
@@ -150,7 +158,7 @@ section {
     max-width: 700px;
     margin: auto;
     font-size: 17px;
-    line-height: 1.8;
+    line-height: 1.9;
     opacity: 0.9;
 }
 
