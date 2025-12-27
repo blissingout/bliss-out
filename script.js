@@ -204,47 +204,63 @@ document.addEventListener("DOMContentLoaded", () => {
         whatsappBtn.href =
             `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     }
-
+   
     /* =====================
-       HOME GALLERY CAROUSEL
+        HOME GALLERY CAROUSEL (TRUE INFINITE)
     ===================== */
     const track = document.querySelector(".carousel-track");
     const prevBtn = document.querySelector(".carousel-btn.left");
     const nextBtn = document.querySelector(".carousel-btn.right");
 
     if (track && prevBtn && nextBtn) {
-        const items = Array.from(track.children);
-        const itemWidth = items[0].getBoundingClientRect().width + 40; // image width + gap
-        let currentIndex = 0;
+        const visible = 3;
+        const gap = 40;
 
-        function moveToIndex(index) {
-            track.style.transform = `translateX(-${itemWidth * index}px)`;
-            currentIndex = index;
+        let items = Array.from(track.children);
+        const itemWidth = items[0].getBoundingClientRect().width + gap;
+
+        // Clone last & first items
+        const firstClones = items.slice(0, visible).map(el => el.cloneNode(true));
+        const lastClones = items.slice(-visible).map(el => el.cloneNode(true));
+
+        lastClones.forEach(clone => track.prepend(clone));
+        firstClones.forEach(clone => track.append(clone));
+
+        items = Array.from(track.children);
+
+        let index = visible;
+
+        // Initial position (real first image)
+        track.style.transform = `translateX(-${itemWidth * index}px)`;
+
+        function moveToIndex(i, animate = true) {
+            track.style.transition = animate ? "transform 0.6s ease" : "none";
+            track.style.transform = `translateX(-${itemWidth * i}px)`;
+            index = i;
         }
 
         nextBtn.addEventListener("click", () => {
-            if (currentIndex < items.length - 3) {
-                moveToIndex(currentIndex + 1);
-            } else {
-                moveToIndex(0);
-            }
+            moveToIndex(index + 1);
         });
 
         prevBtn.addEventListener("click", () => {
-            if (currentIndex > 0) {
-                moveToIndex(currentIndex - 1);
-            } else {
-                moveToIndex(items.length - 3);
+            moveToIndex(index - 1);
+        });
+
+        track.addEventListener("transitionend", () => {
+            // Jump from clones back to real items (no animation)
+            if (index >= items.length - visible) {
+                moveToIndex(visible, false);
+            }
+
+            if (index < visible) {
+                moveToIndex(items.length - visible * 2, false);
             }
         });
 
-        // Auto slide (gentle)
+        // Auto-slide
         setInterval(() => {
-            if (currentIndex < items.length - 3) {
-                moveToIndex(currentIndex + 1);
-            } else {
-                moveToIndex(0);
-            }
+            moveToIndex(index + 1);
         }, 4000);
     }
 
