@@ -204,4 +204,48 @@ document.addEventListener("DOMContentLoaded", () => {
         whatsappBtn.href =
             `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     }
+
+    /* =====================
+       HOME GALLERY CAROUSEL
+    ===================== */
+    const track = document.querySelector(".carousel-track");
+    const prevBtn = document.querySelector(".carousel-btn.left");
+    const nextBtn = document.querySelector(".carousel-btn.right");
+
+    if (track && prevBtn && nextBtn) {
+        const items = Array.from(track.children);
+        const itemWidth = items[0].getBoundingClientRect().width + 40; // image width + gap
+        let currentIndex = 0;
+
+        function moveToIndex(index) {
+            track.style.transform = `translateX(-${itemWidth * index}px)`;
+            currentIndex = index;
+        }
+
+        nextBtn.addEventListener("click", () => {
+            if (currentIndex < items.length - 3) {
+                moveToIndex(currentIndex + 1);
+            } else {
+                moveToIndex(0);
+            }
+        });
+
+        prevBtn.addEventListener("click", () => {
+            if (currentIndex > 0) {
+                moveToIndex(currentIndex - 1);
+            } else {
+                moveToIndex(items.length - 3);
+            }
+        });
+
+        // Auto slide (gentle)
+        setInterval(() => {
+            if (currentIndex < items.length - 3) {
+                moveToIndex(currentIndex + 1);
+            } else {
+                moveToIndex(0);
+            }
+        }, 4000);
+    }
+
 });
