@@ -17,20 +17,31 @@
 <!-- Header -->
 <header class="navbar">
     <div class="logo">
-        <img src="images/logo.png" alt="Bliss Out Dance Studio Logo">
+       <img src="images/logo.png" alt="Bliss Out Dance Studio Logo">
     </div>
 
     <div class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
+         <span></span>
+         <span></span>
+         <span></span>
     </div>
-
     <nav id="nav-menu">
         <ul>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="#home">Home</a></li>
+            <li class="has-dropdown">
+                <div class="dropdown-toggle">
+                    <a href="about.html">About</a>
+                    <span class="dropdown-arrow">›</span>
+                </div>
+
+                <ul class="dropdown">
+                    <li><a href="about.html">About Studio</a></li>
+                    <li><a href="about.html#vision">Our Vision</a></li>
+                </ul>
+            </li>
             <li><a href="classes.html">Classes</a></li>
-            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
 </header>
@@ -82,6 +93,8 @@
 </footer>
 
 <script src="script.js"></script>
+
+<div class="nav-backdrop"></div>
 
 </body>
 </html>

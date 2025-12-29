@@ -275,14 +275,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function closeMenu() {
         navMenu.classList.remove("open");
         hamburger.classList.remove("active");
-        backdrop.classList.remove("active");
+        if (backdrop) backdrop.classList.remove("active");
     }
 
     if (hamburger && navMenu) {
         hamburger.addEventListener("click", () => {
             navMenu.classList.toggle("open");
             hamburger.classList.toggle("active");
-            backdrop.classList.toggle("active");
+            if (backdrop) backdrop.classList.toggle("active");
         });
 
         // Close menu when any link is clicked
@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
             link.addEventListener("click", closeMenu);
         });
 
-        backdrop.addEventListener("click", closeMenu);
+        if (backdrop) backdrop.addEventListener("click", closeMenu);
     }
 
     /* =====================
