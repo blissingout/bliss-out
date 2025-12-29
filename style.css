@@ -159,6 +159,9 @@ section h2 {
     border-radius: 30px;
 
     transition: all 0.3s ease;
+
+    width: fit-content;
+    align-self: center;
 }
 
 .hero-cta:hover {
