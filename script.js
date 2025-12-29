@@ -264,4 +264,48 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 4000);
     }
 
+    /* =====================
+        MOBILE NAV TOGGLE
+    ===================== */
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.getElementById("nav-menu");
+    const navLinks = navMenu ? navMenu.querySelectorAll("a") : [];
+    const backdrop = document.querySelector(".nav-backdrop");
+
+    function closeMenu() {
+        navMenu.classList.remove("open");
+        hamburger.classList.remove("active");
+        backdrop.classList.remove("active");
+    }
+
+    if (hamburger && navMenu) {
+        hamburger.addEventListener("click", () => {
+            navMenu.classList.toggle("open");
+            hamburger.classList.toggle("active");
+            backdrop.classList.toggle("active");
+        });
+
+        // Close menu when any link is clicked
+        navLinks.forEach(link => {
+            link.addEventListener("click", closeMenu);
+        });
+
+        backdrop.addEventListener("click", closeMenu);
+    }
+
+    /* =====================
+        MOBILE DROPDOWN (ABOUT)
+    ===================== */
+    const dropdownToggles = document.querySelectorAll(".dropdown-arrow");
+
+    dropdownToggles.forEach(arrow => {
+        arrow.addEventListener("click", e => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const parent = arrow.closest(".has-dropdown");
+            parent.classList.toggle("open");
+        });  
+    });
+
 });

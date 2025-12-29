@@ -20,7 +20,7 @@
     <!-- Header -->
    <header class="navbar">
     <div class="logo">
-        <img src="images/logo.png" Bliss Out Dance Studio Logo">
+       <img src="images/logo.png" alt="Bliss Out Dance Studio Logo">
     </div>
 
     <div class="hamburger">
@@ -32,11 +32,15 @@
         <ul>
             <li><a href="#home">Home</a></li>
             <li class="has-dropdown">
-                 <a href="about.html">About</a>
-                 <ul class="dropdown">
-                     <li><a href="about.html">About Studio</a></li>
-                     <li><a href="about.html#vision">Our Vision</a></li>
-                 </ul>
+                <div class="dropdown-toggle">
+                    <a href="about.html">About</a>
+                    <span class="dropdown-arrow">›</span>
+                </div>
+
+                <ul class="dropdown">
+                    <li><a href="about.html">About Studio</a></li>
+                    <li><a href="about.html#vision">Our Vision</a></li>
+                </ul>
             </li>
             <li><a href="classes.html">Classes</a></li>
             <li><a href="#gallery">Gallery</a></li>
@@ -81,8 +85,6 @@
     <a href="about.html" class="about-cta">Know More</a>
     </section>
 
-    <div class="section-divider"></div>
-
     <!-- Gallery Section -->
      
     <section class="gallery-home" id="gallery">
@@ -98,22 +100,22 @@
             <div class="carousel-track-container">
                 <div class="carousel-track">
                     <a href="gallery.html" class="carousel-item">
-                        <img src="images/dance1.jpg" alt="Bliss Out Gallery Image">
+                        <img src="images/dance1.jpg" alt="Garba practice at Bliss Out Dance Studio">
                     </a>
                     <a href="gallery.html" class="carousel-item">
-                        <img src="images/dance2.jpg" alt="Bliss Out Gallery Image">
+                        <img src="images/dance2.jpg" alt="Garba practice at Bliss Out Dance Studio">
                     </a>
                     <a href="gallery.html" class="carousel-item">
-                        <img src="images/dance3.jpg" alt="Bliss Out Gallery Image">
+                        <img src="images/dance3.jpg" alt="Garba practice at Bliss Out Dance Studio">
                     </a>
                     <a href="gallery.html" class="carousel-item">
-                        <img src="images/dance4.jpg" alt="Bliss Out Gallery Image">
+                        <img src="images/dance4.jpg" alt="Garba practice at Bliss Out Dance Studio">
                     </a>
                     <a href="gallery.html" class="carousel-item">
-                        <img src="images/dance5.jpg" alt="Bliss Out Gallery Image">
+                        <img src="images/dance5.jpg" alt="Garba practice at Bliss Out Dance Studio">
                     </a>
                     <a href="gallery.html" class="carousel-item">
-                        <img src="images/dance6.jpg" alt="Bliss Out Gallery Image">
+                        <img src="images/dance6.jpg" alt="Garba practice at Bliss Out Dance Studio">
                     </a>
                 </div>
             </div>
@@ -123,8 +125,6 @@
             </button>
         </div>
     </section>
-
-    <div class="section-divider"></div>
 
     <!-- Contact Section -->
     <section class="contact fade-in" id="contact">
@@ -164,5 +164,6 @@
 
     <script src="script.js"></script>
 
+    <div class="nav-backdrop"></div>
 </body>
 </html>
