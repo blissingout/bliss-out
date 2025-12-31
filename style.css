@@ -1,3 +1,13 @@
+:root {
+    --bg-main: #121212;        /* main background */
+    --bg-section: #181818;     /* sections */
+    --bg-soft: #1f1f1f;        /* cards / soft blocks */
+    --bg-navbar: #0b0b0b;      /* navbar */
+    --text-main: #ffffff;
+    --text-muted: rgba(255,255,255,0.7);
+    --accent: #e94560;         /* keep your accent */
+}
+
 /* ================= RESET ================= */
 * {
     margin: 0;
@@ -7,8 +17,8 @@
 
 /* ================= BASE ================= */
 body {
-    background-color: #1a1a2e;
-    color: white;
+    background-color: var(--bg-main);
+    color: var(--text-main);
     font-family: 'Inter', sans-serif;
     font-weight: 400;
 }
@@ -48,7 +58,7 @@ section h2 {
     justify-content: space-between;
     align-items: center;
     padding: 28px 18px;
-    background-color: #0b0b0b;
+    background-color: var(--bg-navbar);
     box-shadow: none;
     position: sticky;
     top: 0;
@@ -97,7 +107,7 @@ section h2 {
     position: absolute;
     top: 140%;
     left: 0;
-    background-color: #0b0b0b;
+    background-color: var(--bg-navbar);
     padding: 12px 0;
     min-width: 200px;
     opacity: 0;
@@ -171,7 +181,7 @@ section h2 {
 
 /* ================= ABOUT ================= */
 .about {
-    background-color: #1a233d;
+    background-color: var(--bg-section);
     text-align: center;
 }
 
@@ -208,7 +218,7 @@ section h2 {
 
 /* ================= GALLERY ================= */
 .gallery {
-    background-color: #1a1a2e;
+    background-color: var(--bg-main);
     text-align: center;
 }
 
@@ -238,7 +248,7 @@ section h2 {
 
 /* ================= CLASSES ================= */
 .classes {
-    background-color: #1a1a2e;
+    background-color: var(--bg-main);
     text-align: center;
 }
 
@@ -250,7 +260,7 @@ section h2 {
 }
 
 .batch-card {
-    background-color: rgba(255,255,255,0.03);
+    background-color: var(--bg-soft);
     padding: 40px;
     border-radius: 6px;
 
@@ -282,7 +292,7 @@ section h2 {
 
 /* ================= CONTACT ================= */
 .contact {
-    background-color: #0f3460;
+    background-color: var(--bg-section);
     text-align: center;
 }
 
@@ -323,7 +333,7 @@ section h2 {
 
 /* ================= FOOTER ================= */
 .footer {
-    background-color: #0b0b0b;
+    background-color: var(--bg-navbar);
     padding: 120px 20px 80px;
     text-align: center;
 }
@@ -390,7 +400,7 @@ section h2 {
 /* ================= HOME GALLERY CAROUSEL ================= */
 
 .gallery-home {
-    background-color: #1a1a2e;
+    background-color: var(--bg-main);
     text-align: center;
 }
 
@@ -517,7 +527,7 @@ section h2 {
         right: 0;
         height: 100vh;
         width: 260px;
-        background-color: #0b0b0b;
+        background-color: var(--bg-navbar);
 
         transform: translateX(100%);
         transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
