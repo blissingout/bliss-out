@@ -252,6 +252,17 @@ section h2 {
     text-align: center;
 }
 
+.classes-title {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.classes-intro {
+  text-align: center;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
 .batch-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -579,6 +590,16 @@ section h2 {
         padding: 6px 0;
     }
 
+    #registrationForm {
+        grid-template-columns: 1fr;
+    }
+
+    #registrationForm input,
+    #registrationForm select,
+    #registrationForm textarea,
+    #registrationForm button {
+        grid-column: span 1 !important;
+    }
 }
 
 /* Dropdown toggle row */
@@ -617,4 +638,77 @@ section h2 {
 .nav-backdrop.active {
     opacity: 1;
     pointer-events: all;
+}
+
+/* =====================
+   REGISTRATION FORM FIX
+===================== */
+
+.form-section {
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* Grid layout */
+#registrationForm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+#registrationForm input,
+#registrationForm select {
+  width: 100%;
+  padding: 12px 14px;
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
+#registrationForm input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+#registrationForm input:focus,
+#registrationForm select:focus {
+  outline: none;
+  border-color: #c0392b;
+}
+
+#registrationForm textarea,
+#registrationForm input[name="address"] {
+  grid-column: span 2;
+}
+
+#registrationForm input[type="file"] {
+  grid-column: span 2;
+}
+
+#registrationForm button {
+  grid-column: span 2;
+  padding: 14px;
+  background: #c0392b;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#registrationForm button:hover {
+  background: #a83225;
 }
