@@ -1,6 +1,20 @@
 const BACKEND_URL = "https://blissout-backend.onrender.com";
 
+let razorpayKey = null;
+
+async function fetchRazorpayKey() {
+    try {
+        const res = await fetch(`${BACKEND_URL}/razorpay-key`);
+        const data = await res.json();
+        razorpayKey = data.key;
+    } catch (err) {
+        console.error("Failed to load Razorpay key", err);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+
+    fetchRazorpayKey();
 
     /* =====================
        REGISTRATION
@@ -62,6 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (confirmPaymentBtn) {
         confirmPaymentBtn.addEventListener("click", async () => {
+            if (!razorpayKey) {
+            alert("Payment system is loading, please try again in a moment.");
+            return;
+            }
             const data = JSON.parse(localStorage.getItem("registrationData"));
             if (!data) return alert("No registration found");
 
@@ -79,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const order = await orderRes.json();
 
                 const options = {
-                    key: "rzp_test_RvL7VYt7d6Awls",
+                    key: razorpayKey, // we’ll fetch this securely
                     amount: order.amount,
                     currency: "INR",
                     name: "Bliss Out Dance Studio",
