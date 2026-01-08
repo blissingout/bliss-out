@@ -1,109 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Payment | Bliss Out Dance Studio</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-</head>
-<body>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="logo">
+        <img src="images/logo.png" alt="Bliss Out Dance Studio Logo" />
+      </div>
 
-<header class="navbar">
-    <div class="logo">
-       <img src="images/logo.png" alt="Bliss Out Dance Studio Logo">
-    </div>
-
-    <div class="hamburger">
-         <span></span>
-         <span></span>
-         <span></span>
-    </div>
-    <nav id="nav-menu">
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav id="nav-menu">
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li class="has-dropdown">
-                <div class="dropdown-toggle">
-                    <a href="about.html">About</a>
-                    <span class="dropdown-arrow">›</span>
-                </div>
-
-                <ul class="dropdown">
-                    <li><a href="about.html">About Studio</a></li>
-                    <li><a href="about.html#vision">Our Vision</a></li>
-                </ul>
-            </li>
-            <li><a href="classes.html">Classes</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-</header>
-
-<section class="classes fade-in">
-    <h1 class="classes-title">Confirm Your Registration</h1>
-
-    <div class="section-divider"></div>
-
-    <div class="contact-form" id="paymentSummary">
-
-        <h3 style="margin-bottom:10px;">Payment Details</h3>
-
-        <p id="batchInfo"></p>
-        <p id="amountInfo" style="font-weight:bold;"></p>
-
-        <div style="margin:25px 0;">
-            <p style="opacity:0.85; font-size:14px;">
-                Pay using UPI QR or UPI ID below
-            </p>
-
-            <!-- QR Placeholder -->
-            <div style="
-                margin: 15px auto;
-                width: 200px;
-                height: 200px;
-                background-color: #000;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                border-radius:10px;
-            ">
-                <span style="opacity:0.6;">QR CODE</span>
+          <li><a href="#home">Home</a></li>
+          <li class="has-dropdown">
+            <div class="dropdown-toggle">
+              <a href="about.html">About</a>
+              <span class="dropdown-arrow">›</span>
             </div>
 
-            <p style="font-size:14px; opacity:0.9;">
-                UPI ID: <strong>blissout@upi</strong>
-            </p>
+            <ul class="dropdown">
+              <li><a href="about.html">About Studio</a></li>
+              <li><a href="about.html#vision">Our Vision</a></li>
+            </ul>
+          </li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="classes fade-in">
+      <h1 class="classes-title">Confirm Your Registration</h1>
+
+      <div class="section-divider"></div>
+
+      <div class="contact-form" id="paymentSummary">
+        <h3 style="margin-bottom: 10px">Payment Details</h3>
+
+        <p id="batchInfo"></p>
+        <p id="amountInfo" style="font-weight: bold"></p>
+
+        <div style="margin: 25px 0">
+          <p style="opacity: 0.85; font-size: 14px">
+            Pay using UPI QR or UPI ID below
+          </p>
+
+          <!-- QR Placeholder -->
+          <div
+            style="
+              margin: 15px auto;
+              width: 200px;
+              height: 200px;
+              background-color: #000;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 10px;
+            "
+          >
+            <span style="opacity: 0.6">QR CODE</span>
+          </div>
+
+          <p style="font-size: 14px; opacity: 0.9">
+            UPI ID: <strong>blissout@upi</strong>
+          </p>
         </div>
 
-        <p style="font-size:13px; opacity:0.7;">
-            After completing payment, click <strong>Confirm Payment</strong>.
+        <p style="font-size: 13px; opacity: 0.7">
+          After completing payment, click <strong>Confirm Payment</strong>.
         </p>
+      </div>
 
-    </div>
-
-    <button id="confirmPaymentBtn" style="
-        margin-top: 30px;
-        padding: 14px;
-        font-size: 16px;
-        background-color: #e94560;
-        color: white;
-        border: none;
-        cursor: pointer;
-    ">
+      <button
+        id="confirmPaymentBtn"
+        style="
+          margin-top: 30px;
+          padding: 14px;
+          font-size: 16px;
+          background-color: #e94560;
+          color: white;
+          border: none;
+          cursor: pointer;
+        "
+      >
         Confirm Payment
-    </button>
-</section>
+      </button>
+    </section>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
-<div class="nav-backdrop"></div>
-
-</body>
+    <div class="nav-backdrop"></div>
+  </body>
 </html>

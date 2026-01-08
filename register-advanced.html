@@ -1,103 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register for Advanced Batch | Bliss Out Dance Studio</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
-<!-- Header -->
-<header class="navbar">
-    <div class="logo">
-       <img src="images/logo.png" alt="Bliss Out Dance Studio Logo">
-    </div>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="navbar">
+      <div class="logo">
+        <img src="images/logo.png" alt="Bliss Out Dance Studio Logo" />
+      </div>
 
-    <div class="hamburger">
-         <span></span>
-         <span></span>
-         <span></span>
-    </div>
-    <nav id="nav-menu">
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav id="nav-menu">
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li class="has-dropdown">
-                <div class="dropdown-toggle">
-                    <a href="about.html">About</a>
-                    <span class="dropdown-arrow">›</span>
-                </div>
+          <li><a href="#home">Home</a></li>
+          <li class="has-dropdown">
+            <div class="dropdown-toggle">
+              <a href="about.html">About</a>
+              <span class="dropdown-arrow">›</span>
+            </div>
 
-                <ul class="dropdown">
-                    <li><a href="about.html">About Studio</a></li>
-                    <li><a href="about.html#vision">Our Vision</a></li>
-                </ul>
-            </li>
-            <li><a href="classes.html">Classes</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <ul class="dropdown">
+              <li><a href="about.html">About Studio</a></li>
+              <li><a href="about.html#vision">Our Vision</a></li>
+            </ul>
+          </li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
-    </nav>
-</header>
+      </nav>
+    </header>
 
-<!-- Registration Section -->
-<section class="form-section fade-in">
-    <h1 class="classes-title">Advanced Batch Registration</h1>
+    <!-- Registration Section -->
+    <section class="form-section fade-in">
+      <h1 class="classes-title">Advanced Batch Registration</h1>
 
-    <p class="classes-intro">
-        You are registering for the <strong>Advanced Garba Batch</strong><br>
+      <p class="classes-intro">
+        You are registering for the <strong>Advanced Garba Batch</strong><br />
         Timing: <strong>6:30 PM – 8:30 PM</strong>
-    </p>
+      </p>
 
-    <div class="section-divider"></div>
+      <div class="section-divider"></div>
 
-    <!-- Registration Form -->
-    <div class="form-card">
+      <!-- Registration Form -->
+      <div class="form-card">
         <form id="registrationForm">
+          <input
+            type="hidden"
+            name="batch"
+            value="Advanced Batch (6:30 PM – 8:30 PM)"
+          />
 
-            <input type="hidden" name="batch" value="Advanced Batch (6:30 PM – 8:30 PM)">
+          <input type="text" name="name" placeholder="Full Name" required />
 
-            <input type="text" name="name" placeholder="Full Name" required>
+          <input type="number" name="age" placeholder="Age" required />
 
-            <input type="number" name="age" placeholder="Age" required>
+          <select name="gender" required>
+            <option value="">Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
 
-            <select name="gender" required>
-                <option value="">Select Gender</option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-            </select>
+          <textarea name="address" placeholder="Address" required></textarea>
 
-            <textarea name="address" placeholder="Address" required></textarea>
+          <input
+            type="tel"
+            name="whatsapp"
+            pattern="[0-9]{10}"
+            placeholder="WhatsApp Number"
+            required
+          />
 
-            <input type="tel" name="whatsapp" pattern="[0-9]{10}" placeholder="WhatsApp Number" required>
+          <label style="text-align: left; font-size: 14px; opacity: 0.8">
+            Upload Photo
+          </label>
+          <input type="file" accept="image/*" />
 
-            <label style="text-align:left; font-size:14px; opacity:0.8;">
-                Upload Photo
-            </label>
-            <input type="file" accept="image/*">
-
-            <button type="submit">Register Now</button>
-
+          <button type="submit">Register Now</button>
         </form>
-    </div>
+      </div>
+    </section>
 
-</section>
+    <!-- Footer -->
+    <footer class="footer">
+      <p>© 2025 Bliss Out Dance Studio, Khandwa</p>
+    </footer>
 
-<!-- Footer -->
-<footer class="footer">
-    <p>© 2025 Bliss Out Dance Studio, Khandwa</p>
-</footer>
+    <script src="script.js"></script>
 
-<script src="script.js"></script>
-
-<div class="nav-backdrop"></div>
-
-</body>
+    <div class="nav-backdrop"></div>
+  </body>
 </html>

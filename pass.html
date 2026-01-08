@@ -1,69 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Your Entry Pass | Bliss Out</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="logo">
+        <img src="images/logo.png" alt="Bliss Out Dance Studio Logo" />
+      </div>
 
-<header class="navbar">
-    <div class="logo">
-       <img src="images/logo.png" alt="Bliss Out Dance Studio Logo">
-    </div>
-
-    <div class="hamburger">
-         <span></span>
-         <span></span>
-         <span></span>
-    </div>
-    <nav id="nav-menu">
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav id="nav-menu">
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li class="has-dropdown">
-                <div class="dropdown-toggle">
-                    <a href="about.html">About</a>
-                    <span class="dropdown-arrow">›</span>
-                </div>
+          <li><a href="#home">Home</a></li>
+          <li class="has-dropdown">
+            <div class="dropdown-toggle">
+              <a href="about.html">About</a>
+              <span class="dropdown-arrow">›</span>
+            </div>
 
-                <ul class="dropdown">
-                    <li><a href="about.html">About Studio</a></li>
-                    <li><a href="about.html#vision">Our Vision</a></li>
-                </ul>
-            </li>
-            <li><a href="classes.html">Classes</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <ul class="dropdown">
+              <li><a href="about.html">About Studio</a></li>
+              <li><a href="about.html#vision">Our Vision</a></li>
+            </ul>
+          </li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
-    </nav>
-   </header>
+      </nav>
+    </header>
 
-<section class="classes fade-in">
-    <h1 class="classes-title">Your Entry Pass</h1>
+    <section class="classes fade-in">
+      <h1 class="classes-title">Your Entry Pass</h1>
 
-    <div class="section-divider"></div>
+      <div class="section-divider"></div>
 
-    <div class="entry-pass" id="passDetails">
+      <div class="entry-pass" id="passDetails">
         <div class="pass-card">
-            <!-- Filled by JS -->
+          <!-- Filled by JS -->
         </div>
-    </div>
+      </div>
 
-    <a id="whatsappBtn" class="about-cta" style="margin-top:30px;">
+      <a
+        id="whatsappBtn"
+        href="#"
+        class="about-cta"
+        style="margin-top: 30px"
+        target="_blank"
+      >
         Confirm via WhatsApp
-    </a>
-</section>
+      </a>
+    </section>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
-<div class="nav-backdrop"></div>
-
-</body>
+    <div class="nav-backdrop"></div>
+  </body>
 </html>
