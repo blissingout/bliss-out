@@ -28,7 +28,7 @@
       </div>
       <nav id="nav-menu">
         <ul>
-          <li><a href="#home">Home</a></li>
+          <li><a href="index.html#home">Home</a></li>
           <li class="has-dropdown">
             <div class="dropdown-toggle">
               <a href="about.html">About</a>
@@ -41,33 +41,30 @@
             </ul>
           </li>
           <li><a href="classes.html">Classes</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="index.html#gallery">Gallery</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
         </ul>
       </nav>
     </header>
 
     <section class="classes fade-in">
       <h1 class="classes-title">Your Entry Pass</h1>
-
+      <p class="classes-intro">Your pass is being generated. Once ready, you can confirm it via WhatsApp below.</p>
+      
       <div class="section-divider"></div>
 
-      <div class="entry-pass" id="passDetails">
-        <div class="pass-card">
-          <!-- Filled by JS -->
-        </div>
+      <div id="download-container" style="margin: 30px 0; min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <p style="opacity: 0.6;">Generating your digital ticket...</p>
       </div>
 
-      <a
-        id="whatsappBtn"
-        href="#"
-        class="about-cta"
-        style="margin-top: 30px"
-        target="_blank"
-      >
+      <a id="whatsappBtn" href="#" class="about-cta" target="_blank">
         Confirm via WhatsApp
       </a>
     </section>
+
+    <footer class="footer">
+      <p>© 2025 Bliss Out Dance Studio, Khandwa</p>
+    </footer>
 
     <script src="script.js"></script>
 

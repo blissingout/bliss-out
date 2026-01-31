@@ -1,5 +1,4 @@
 const BACKEND_URL = "https://blissout-backend.onrender.com";
-
 let razorpayKey = null;
 
 async function fetchRazorpayKey() {
@@ -19,62 +18,45 @@ document.addEventListener("DOMContentLoaded", () => {
        REGISTRATION
     ===================== */
   const registrationForm = document.getElementById("registrationForm");
-
   if (registrationForm) {
     registrationForm.addEventListener("submit", (e) => {
       e.preventDefault();
-
       const formData = new FormData(registrationForm);
       const data = {
         batch: formData.get("batch"),
         name: formData.get("name"),
-        age: formData.get("age"),
-        gender: formData.get("gender"),
-        address: formData.get("address"),
         whatsapp: formData.get("whatsapp"),
-        passId: generatePassId(formData.get("batch")),
+        passId: `BLISS-${formData.get("batch").substring(0, 3).toUpperCase()}-${Math.floor(10000 + Math.random() * 90000)}`,
         status: "Pending Payment",
       };
-
       localStorage.setItem("registrationData", JSON.stringify(data));
       window.location.href = "payment.html";
     });
   }
 
-  function generatePassId(batch) {
-    const code = batch.includes("Beginner")
-      ? "BEG"
-      : batch.includes("Intermediate")
-      ? "INT"
-      : "ADV";
-
-    return `BLISS-${code}-${Math.floor(10000 + Math.random() * 90000)}`;
-  }
-
   /* =====================
        PAYMENT PAGE
     ===================== */
-  const paymentSummary = document.getElementById("paymentSummary");
-
-  if (paymentSummary) {
+  if (window.location.pathname.includes("payment.html")) {
     const data = JSON.parse(localStorage.getItem("registrationData"));
-    if (!data) return;
+    if (data) {
+      let amount = 1500;
+      if (data.batch.includes("Intermediate")) amount = 2000;
+      if (data.batch.includes("Advanced")) amount = 2500;
 
-    let amount = 1500;
-    if (data.batch.includes("Intermediate")) amount = 2000;
-    if (data.batch.includes("Advanced")) amount = 2500;
-
-    document.getElementById("batchInfo").innerText = `Batch: ${data.batch}`;
-    document.getElementById(
-      "amountInfo"
-    ).innerText = `Amount to Pay: ₹${amount}`;
+      const batchEl = document.getElementById("batchInfo");
+      const amountEl = document.getElementById("amountInfo");
+      
+      if(batchEl) batchEl.innerText = `Batch: ${data.batch}`;
+      if(amountEl) amountEl.innerText = `Total: ₹${amount}`;
+      localStorage.setItem("temp_amount", amount);
+    }
   }
 
   /* =====================
        RAZORPAY PAYMENT
     ===================== */
   const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
-
   if (confirmPaymentBtn) {
     confirmPaymentBtn.addEventListener("click", async () => {
       if (!razorpayKey) {
@@ -82,11 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       const data = JSON.parse(localStorage.getItem("registrationData"));
-      if (!data) return alert("No registration found");
-
-      let amount = 1500;
-      if (data.batch.includes("Intermediate")) amount = 2000;
-      if (data.batch.includes("Advanced")) amount = 2500;
+      const amount = localStorage.getItem("temp_amount");
+      if (!data || !amount) return alert("No registration found");
 
       try {
         const orderRes = await fetch(`${BACKEND_URL}/create-order`, {
@@ -98,44 +77,29 @@ document.addEventListener("DOMContentLoaded", () => {
         const order = await orderRes.json();
 
         const options = {
-          key: razorpayKey, // we’ll fetch this securely
+          key: razorpayKey,
           amount: order.amount,
           currency: "INR",
           name: "Bliss Out Dance Studio",
           description: data.batch,
           order_id: order.id,
-
           handler: async (response) => {
             const verifyRes = await fetch(`${BACKEND_URL}/verify-payment`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
+              body: JSON.stringify(response),
             });
 
             const result = await verifyRes.json();
-
             if (result.success) {
               localStorage.setItem("payment_id", response.razorpay_payment_id);
-              localStorage.setItem("batch", data.batch);
-              localStorage.setItem("amount", amount);
-
-              data.status = "Payment Completed";
-              data.paymentId = response.razorpay_payment_id;
-              localStorage.setItem("registrationData", JSON.stringify(data));
-
               window.location.href = "payment-success.html";
             } else {
               alert("Payment verification failed");
             }
           },
-
-          theme: { color: "#c0392b" },
+          theme: { color: "#e94560" },
         };
-
         new Razorpay(options).open();
       } catch (err) {
         console.error(err);
@@ -145,137 +109,72 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-        PAYMENT SUCCESS PAGE
+       SUCCESS PAGE
     ===================== */
-  if (window.location.pathname.includes("payment-success")) {
+  if (window.location.pathname.includes("payment-success.html")) {
     const data = JSON.parse(localStorage.getItem("registrationData"));
-    const paymentId = localStorage.getItem("payment_id");
+    const pId = localStorage.getItem("payment_id");
+    const amt = localStorage.getItem("temp_amount");
 
-    if (!data || !paymentId) {
-      window.location.href = "index.html";
-      return;
+    if (data && pId) {
+        document.getElementById("successBatch").innerText = `Batch: ${data.batch}`;
+        document.getElementById("successAmount").innerText = `Amount Paid: ₹${amt}`;
+        document.getElementById("successPaymentId").innerText = `Payment ID: ${pId}`;
     }
-
-    // Existing success text (KEEP THIS)
-    document.getElementById("successBatch").innerText = `Batch: ${data.batch}`;
-
-    document.getElementById(
-      "successAmount"
-    ).innerText = `Amount Paid: ₹${localStorage.getItem("amount")}`;
-
-    document.getElementById(
-      "successPaymentId"
-    ).innerText = `Payment ID: ${paymentId}`;
-
-    /* =====================
-           PDF ENTRY PASS LOGIC
-        ===================== */
-
-    // Fill pass text
-    document.getElementById("passName").innerText = `Name: ${data.name}`;
-
-    document.getElementById("passBatch").innerText = `Batch: ${data.batch}`;
-
-    document.getElementById("passId").innerText = `Pass ID: ${data.passId}`;
-
-    // Generate QR code
-    const qrContainer = document.getElementById("qrCode");
-    qrContainer.innerHTML = "";
-
-    new QRCode(qrContainer, {
-      text: JSON.stringify({
-        studio: "Bliss Out",
-        name: data.name,
-        batch: data.batch,
-        passId: data.passId,
-        paymentId: paymentId,
-      }),
-      width: 100,
-      height: 100,
-    });
-
-    // Generate PDF after short delay (ensures QR renders)
-    setTimeout(() => {
-      const { jsPDF } = window.jspdf;
-
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "px",
-        format: [800, 400],
-      });
-
-      pdf.html(document.getElementById("pass-template"), {
-        callback: function () {
-          pdf.save(`BlissOut_Pass_${data.passId}.pdf`);
-        },
-        x: 0,
-        y: 0,
-      });
-    }, 800);
   }
 
   /* =====================
-       PASS PAGE PROTECTION
+       PASS PAGE RENDER & DOWNLOAD
     ===================== */
-  if (
-    window.location.pathname.includes("pass.html") &&
-    !localStorage.getItem("payment_id")
-  ) {
-    window.location.href = "index.html";
-  }
-
-  /* =====================
-   PASS PAGE RENDER
-===================== */
   if (window.location.pathname.includes("pass.html")) {
     const data = JSON.parse(localStorage.getItem("registrationData"));
-    const paymentId = localStorage.getItem("payment_id");
-
-    if (!data || !paymentId) {
-      window.location.href = "index.html";
-      return;
-    }
-
-    const passCard = document.querySelector(".pass-card");
-
-    if (passCard) {
-      passCard.innerHTML = `
-      <h3>Bliss Out Entry Pass</h3>
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Batch:</strong> ${data.batch}</p>
-      <p><strong>Pass ID:</strong> ${data.passId}</p>
-      <p><strong>Payment ID:</strong> ${paymentId}</p>
-      <p class="pass-id">Please show this pass at the studio</p>
-    `;
-    }
-  }
-
-  if (window.location.pathname.includes("pass.html")) {
+    const downloadContainer = document.getElementById("download-container");
     const whatsappBtn = document.getElementById("whatsappBtn");
-    const data = JSON.parse(localStorage.getItem("registrationData"));
 
-    if (whatsappBtn && data) {
-      const phoneNumber = "918964033641";
+    if (!data) {
+      window.location.href = "index.html";
+    } else {
+      async function triggerPassDownload() {
+        try {
+          const response = await fetch(`${BACKEND_URL}/generate-pass`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: data.name,
+              batch: data.batch,
+              passId: data.passId
+            }),
+          });
 
-      const message = `
-Hello Bliss Out 👋
+          if (!response.ok) throw new Error("Failed to generate PDF");
 
-I am confirming my entry pass.
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
 
-Name: ${data.name}
-Batch: ${data.batch}
-Pass ID: ${data.passId}
+          if (downloadContainer) {
+            downloadContainer.innerHTML = `
+              <p style="color: #2ecc71; margin-bottom: 15px;">✅ Your pass is ready!</p>
+              <a href="${url}" download="BlissOut_Pass_${data.passId}.pdf" class="about-cta" style="background-color: #e94560; border: none; text-decoration:none;">
+                  Download PDF Pass
+              </a>`;
+          }
+        } catch (err) {
+          console.error(err);
+          if (downloadContainer) downloadContainer.innerHTML = `<p style="color: #e94560;">Error generating pass. Please refresh.</p>`;
+        }
+      }
 
-Thank you!
-    `.trim();
+      triggerPassDownload();
 
-      whatsappBtn.href =
-        "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+      if (whatsappBtn) {
+        const message = `Hello Bliss Out 👋\n\nI have downloaded my entry pass.\n\nName: ${data.name}\nBatch: ${data.batch}\nPass ID: ${data.passId}\n\nThank you!`.trim();
+        whatsappBtn.href = "https://wa.me/918964033641?text=" + encodeURIComponent(message);
+      }
     }
   }
 
   /* =====================
-        HOME GALLERY CAROUSEL (TRUE INFINITE)
+        HOME GALLERY CAROUSEL
     ===================== */
   const track = document.querySelector(".carousel-track");
   const prevBtn = document.querySelector(".carousel-btn.left");
@@ -284,11 +183,9 @@ Thank you!
   if (track && prevBtn && nextBtn) {
     const visible = 3;
     const gap = 40;
-
     let items = Array.from(track.children);
     const itemWidth = items[0].getBoundingClientRect().width + gap;
 
-    // Clone last & first items
     const firstClones = items.slice(0, visible).map((el) => el.cloneNode(true));
     const lastClones = items.slice(-visible).map((el) => el.cloneNode(true));
 
@@ -296,10 +193,7 @@ Thank you!
     firstClones.forEach((clone) => track.append(clone));
 
     items = Array.from(track.children);
-
     let index = visible;
-
-    // Initial position (real first image)
     track.style.transform = `translateX(-${itemWidth * index}px)`;
 
     function moveToIndex(i, animate = true) {
@@ -308,29 +202,15 @@ Thank you!
       index = i;
     }
 
-    nextBtn.addEventListener("click", () => {
-      moveToIndex(index + 1);
-    });
-
-    prevBtn.addEventListener("click", () => {
-      moveToIndex(index - 1);
-    });
+    nextBtn.addEventListener("click", () => moveToIndex(index + 1));
+    prevBtn.addEventListener("click", () => moveToIndex(index - 1));
 
     track.addEventListener("transitionend", () => {
-      // Jump from clones back to real items (no animation)
-      if (index >= items.length - visible) {
-        moveToIndex(visible, false);
-      }
-
-      if (index < visible) {
-        moveToIndex(items.length - visible * 2, false);
-      }
+      if (index >= items.length - visible) moveToIndex(visible, false);
+      if (index < visible) moveToIndex(items.length - visible * 2, false);
     });
 
-    // Auto-slide
-    setInterval(() => {
-      moveToIndex(index + 1);
-    }, 4000);
+    setInterval(() => moveToIndex(index + 1), 4000);
   }
 
   /* =====================
