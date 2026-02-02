@@ -4,19 +4,19 @@ let razorpayKey = null;
 async function fetchRazorpayKey() {
   try {
     const res = await fetch(`${BACKEND_URL}/razorpay-key`);
+    if (!res.ok) throw new Error("Backend not responding");
     const data = await res.json();
     razorpayKey = data.key;
+    console.log("✅ Razorpay Key Loaded");
   } catch (err) {
-    console.error("Failed to load Razorpay key", err);
+    console.error("❌ Failed to load Razorpay key:", err);
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchRazorpayKey();
 
-  /* =====================
-       REGISTRATION
-    ===================== */
+  /* ===================== REGISTRATION ===================== */
   const registrationForm = document.getElementById("registrationForm");
   if (registrationForm) {
     registrationForm.addEventListener("submit", (e) => {
@@ -34,9 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =====================
-       PAYMENT PAGE
-    ===================== */
+  /* ===================== PAYMENT PAGE ===================== */
   if (window.location.pathname.includes("payment.html")) {
     const data = JSON.parse(localStorage.getItem("registrationData"));
     if (data) {
@@ -47,15 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const batchEl = document.getElementById("batchInfo");
       const amountEl = document.getElementById("amountInfo");
       
-      if(batchEl) batchEl.innerText = `Batch: ${data.batch}`;
-      if(amountEl) amountEl.innerText = `Total: ₹${amount}`;
+      if (batchEl) batchEl.innerText = `Batch: ${data.batch}`;
+      if (amountEl) amountEl.innerText = `Total: ₹${amount}`;
       localStorage.setItem("temp_amount", amount);
     }
   }
 
-  /* =====================
-       RAZORPAY PAYMENT
-    ===================== */
+  /* ===================== RAZORPAY PAYMENT ===================== */
   const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
   if (confirmPaymentBtn) {
     confirmPaymentBtn.addEventListener("click", async () => {
@@ -102,15 +98,13 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         new Razorpay(options).open();
       } catch (err) {
-        console.error(err);
-        alert("Payment error");
+        console.error("Payment Error:", err);
+        alert("Payment error occurred.");
       }
     });
   }
 
-  /* =====================
-       SUCCESS PAGE
-    ===================== */
+  /* ===================== SUCCESS PAGE ===================== */
   if (window.location.pathname.includes("payment-success.html")) {
     const data = JSON.parse(localStorage.getItem("registrationData"));
     const pId = localStorage.getItem("payment_id");
@@ -123,17 +117,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =====================
-       PASS PAGE RENDER & DOWNLOAD
-    ===================== */
+  /* ===================== PASS PAGE RENDER & DOWNLOAD ===================== */
   if (window.location.pathname.includes("pass.html")) {
     const data = JSON.parse(localStorage.getItem("registrationData"));
     const downloadContainer = document.getElementById("download-container");
     const whatsappBtn = document.getElementById("whatsappBtn");
 
-    if (!data) {
+    if (!data || !localStorage.getItem("payment_id")) {
       window.location.href = "index.html";
     } else {
+      // Logic for PDF Download
       async function triggerPassDownload() {
         try {
           const response = await fetch(`${BACKEND_URL}/generate-pass`, {
@@ -146,7 +139,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }),
           });
 
-          if (!response.ok) throw new Error("Failed to generate PDF");
+          // Check if the response is a PDF
+          const contentType = response.headers.get("content-type");
+          if (!response.ok || contentType !== "application/pdf") {
+            const errorText = await response.text();
+            console.error("Backend Error:", errorText);
+            throw new Error("Failed to generate valid PDF");
+          }
 
           const blob = await response.blob();
           const url = window.URL.createObjectURL(blob);
@@ -166,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       triggerPassDownload();
 
+      // Logic for WhatsApp Link
       if (whatsappBtn) {
         const message = `Hello Bliss Out 👋\n\nI have downloaded my entry pass.\n\nName: ${data.name}\nBatch: ${data.batch}\nPass ID: ${data.passId}\n\nThank you!`.trim();
         whatsappBtn.href = "https://wa.me/918964033641?text=" + encodeURIComponent(message);
@@ -173,9 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* =====================
-        HOME GALLERY CAROUSEL
-    ===================== */
+  /* ===================== HOME GALLERY CAROUSEL ===================== */
   const track = document.querySelector(".carousel-track");
   const prevBtn = document.querySelector(".carousel-btn.left");
   const nextBtn = document.querySelector(".carousel-btn.right");
@@ -184,48 +182,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const visible = 3;
     const gap = 40;
     let items = Array.from(track.children);
-    const itemWidth = items[0].getBoundingClientRect().width + gap;
+    if (items.length > 0) {
+      const itemWidth = items[0].getBoundingClientRect().width + gap;
+      const firstClones = items.slice(0, visible).map((el) => el.cloneNode(true));
+      const lastClones = items.slice(-visible).map((el) => el.cloneNode(true));
 
-    const firstClones = items.slice(0, visible).map((el) => el.cloneNode(true));
-    const lastClones = items.slice(-visible).map((el) => el.cloneNode(true));
+      lastClones.forEach((clone) => track.prepend(clone));
+      firstClones.forEach((clone) => track.append(clone));
 
-    lastClones.forEach((clone) => track.prepend(clone));
-    firstClones.forEach((clone) => track.append(clone));
+      items = Array.from(track.children);
+      let index = visible;
+      track.style.transform = `translateX(-${itemWidth * index}px)`;
 
-    items = Array.from(track.children);
-    let index = visible;
-    track.style.transform = `translateX(-${itemWidth * index}px)`;
+      function moveToIndex(i, animate = true) {
+        track.style.transition = animate ? "transform 0.6s ease" : "none";
+        track.style.transform = `translateX(-${itemWidth * i}px)`;
+        index = i;
+      }
 
-    function moveToIndex(i, animate = true) {
-      track.style.transition = animate ? "transform 0.6s ease" : "none";
-      track.style.transform = `translateX(-${itemWidth * i}px)`;
-      index = i;
+      nextBtn.addEventListener("click", () => moveToIndex(index + 1));
+      prevBtn.addEventListener("click", () => moveToIndex(index - 1));
+
+      track.addEventListener("transitionend", () => {
+        if (index >= items.length - visible) moveToIndex(visible, false);
+        if (index < visible) moveToIndex(items.length - visible * 2, false);
+      });
+
+      setInterval(() => moveToIndex(index + 1), 4000);
     }
-
-    nextBtn.addEventListener("click", () => moveToIndex(index + 1));
-    prevBtn.addEventListener("click", () => moveToIndex(index - 1));
-
-    track.addEventListener("transitionend", () => {
-      if (index >= items.length - visible) moveToIndex(visible, false);
-      if (index < visible) moveToIndex(items.length - visible * 2, false);
-    });
-
-    setInterval(() => moveToIndex(index + 1), 4000);
   }
 
-  /* =====================
-        MOBILE NAV TOGGLE
-    ===================== */
+  /* ===================== MOBILE NAV TOGGLE ===================== */
   const hamburger = document.querySelector(".hamburger");
   const navMenu = document.getElementById("nav-menu");
-  const navLinks = navMenu ? navMenu.querySelectorAll("a") : [];
   const backdrop = document.querySelector(".nav-backdrop");
-
-  function closeMenu() {
-    navMenu.classList.remove("open");
-    hamburger.classList.remove("active");
-    if (backdrop) backdrop.classList.remove("active");
-  }
 
   if (hamburger && navMenu) {
     hamburger.addEventListener("click", () => {
@@ -233,27 +223,16 @@ document.addEventListener("DOMContentLoaded", () => {
       hamburger.classList.toggle("active");
       if (backdrop) backdrop.classList.toggle("active");
     });
-
-    // Close menu when any link is clicked
-    navLinks.forEach((link) => {
-      link.addEventListener("click", closeMenu);
-    });
-
-    if (backdrop) backdrop.addEventListener("click", closeMenu);
   }
 
-  /* =====================
-        MOBILE DROPDOWN (ABOUT)
-    ===================== */
+  /* ===================== MOBILE DROPDOWN ===================== */
   const dropdownToggles = document.querySelectorAll(".dropdown-arrow");
-
   dropdownToggles.forEach((arrow) => {
     arrow.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-
       const parent = arrow.closest(".has-dropdown");
-      parent.classList.toggle("open");
+      if (parent) parent.classList.toggle("open");
     });
   });
 });
