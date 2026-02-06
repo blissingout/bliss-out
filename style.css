@@ -562,11 +562,18 @@ section h2 {
     grid-template-columns: 1fr;
   }
 
+  /* 1. Keep inputs spanning 1 column */
   #registrationForm input,
   #registrationForm select,
-  #registrationForm textarea,
-  #registrationForm button {
+  #registrationForm textarea {
     grid-column: span 1 !important;
+  }
+
+  /* 2. FORCE the button to span the full width (start to end) */
+  #registrationForm button {
+    grid-column: 1 / -1 !important;  /* spans from the first line to the last line */
+    width: 100%;                     /* ensures it fills the entire space */
+    margin-top: 10px;                /* optional: adds a little breathing room */
   }
 }
 
@@ -615,9 +622,11 @@ section h2 {
 .form-section {
   min-height: 70vh;
   display: flex;
+  flex-direction: column;  /* <--- ADD THIS LINE to stack items vertically */
   justify-content: center;
   align-items: center;
   padding: 60px 20px;
+  text-align: center;
 }
 
 .form-card {
